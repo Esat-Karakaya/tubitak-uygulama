@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native"
 import EachReport from "./eachReport/eachReport";
 
