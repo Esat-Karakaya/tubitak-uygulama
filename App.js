@@ -1,25 +1,21 @@
-import { View, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from "@react-navigation/native"
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import GamesScreen from "./routes/gamesRoute/gamesScreen"
+import TipsScreen from "./routes/tipsRoute/tipsScreen"
+import ChairScreen from "./routes/chairRoute/chairScreen"
+import DailyInfoScreen from "./routes/dailyInfoRoute/dailyInfoScreen"
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
+const Stack = createBottomTabNavigator()
 
-const Stack = createNativeStackNavigator();
-
-function App() {
+export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Navigator initialRouteName="Oyunlar">
+        <Stack.Screen name="Oyunlar" component={GamesScreen} />
+        <Stack.Screen name="Tavsiyeler" component={TipsScreen} />
+        <Stack.Screen name="Günlük Rapor" component={DailyInfoScreen} />
+        <Stack.Screen name="Akıllı Sandalye" component={ChairScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-export default App;
