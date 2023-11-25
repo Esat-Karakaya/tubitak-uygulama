@@ -34,8 +34,8 @@ const Physics = (entities, { touches, time, dispatch }) => {
 
     //Rotates To Touched
     const mouse = Math.atan2(
-      +touch.event.pageX - PLAYER_R_X,
-      -touch.event.pageY + PLAYER_R_Y
+      +touch.event.locationX - PLAYER_R_X,
+      -touch.event.locationY + PLAYER_R_Y
     );
     Matter.Body.setAngle(PlayerBody, mouse);
 

@@ -3,7 +3,6 @@ import { useState, useEffect, } from "react";
 import Game from "./emojisGame";
 
 export default function EmojisGame({ route }){
-  const [bool, refresh]=useState(true)
   const [count, setCount]=useState(3)
 
   useEffect(()=>{
@@ -19,7 +18,7 @@ export default function EmojisGame({ route }){
       </View>
     )
   }
-  return(<Game key={bool} mistakes={route.params.mistakes} refresh={refresh}/>)
+  return(<Game mistakes={route.params.mistakes}/>)
 }
 
 const styles = StyleSheet.create({

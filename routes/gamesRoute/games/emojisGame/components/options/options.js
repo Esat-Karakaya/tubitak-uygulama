@@ -56,9 +56,12 @@ export default function Options({showCount, showList, mistakes}) {
         </OptionButton>
       )}</View>
       {reveal ? 
-      (<Text style={{fontSize:20}}>
-        {selectedE===duplicate?"Tebrikler 🥳":"Çalıştıkça Gelişir 😉"}
-      </Text>):
+      <>
+        <Text style={{fontSize:20}}>
+          {selectedE===duplicate?"Tebrikler 🥳":"Çalıştıkça Gelişir 😉"}
+        </Text>
+        <Button title='Devam Et'/>
+      </>:
       <Button onPress={onConfirm} title={reveal?"Kontrol Et":"Cevabı Gör"}/>}
     </Animated.View>
   );

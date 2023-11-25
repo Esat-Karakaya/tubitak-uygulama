@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, StatusBar, View, Text } from 'react-native';
+import { StyleSheet, StatusBar, View, Text, Button } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import entities from './entities';
 import Physics from './physics';
@@ -11,6 +11,7 @@ export default function MazeGame() {
     <>
       <View style={styles.topBar}>
         <Text style={styles.text}>{`Anahtarlar: ${collectedKeys}/3`}</Text>
+        {collectedKeys===3?<Button title='Devam Et'/>:null}
       </View>
       <GameEngine
         systems={[Physics]}
@@ -37,7 +38,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    paddingTop: 20,
   },
   text: {
     fontSize: 20,
