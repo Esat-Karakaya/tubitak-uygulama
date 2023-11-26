@@ -18,7 +18,7 @@ export default function EmojisGame({ route }){
       </View>
     )
   }
-  return(<Game mistakes={route.params.mistakes}/>)
+  return(<Game {...route.params}/>)
 }
 
 const styles = StyleSheet.create({

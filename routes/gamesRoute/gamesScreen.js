@@ -5,9 +5,12 @@ import GameLink from "./gameLink/gameLink"
 import EmojisGame from "./games/emojisGame"
 import MazeGame from "./games/mazeGame"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAtom } from "jotai";
+import {nextGame} from "../../jotai"
 const {getItem, setItem} = AsyncStorage;
 
 function GameMenu({ navigation, minParent, normParent }) {
+  const [, setNextGameAtom]=useAtom(nextGame)
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -17,7 +20,8 @@ function GameMenu({ navigation, minParent, normParent }) {
     return unsubscribe;
   }, []);
 
-  const goToGame=async (route, storage)=>{
+  const goToGame=async (route, storage, isRandom, shouldReplace)=>{//SIDE EFFECTS
+    console.log(route, storage, isRandom, shouldReplace)
     const rawData = await getItem(storage)
     const readItem = rawData===null?null:JSON.parse(rawData)//str to arr
 
@@ -26,8 +30,20 @@ function GameMenu({ navigation, minParent, normParent }) {
     if (readItem===null) {//declares it a JSON arr if null
       setItem(storage, "[]")
     }
-    navigation.navigate(route, {mistakes:readItem ?? []})
+    setNextGameAtom({get:(isRandom ? ()=>gamePicker(true) : () => goToGame(route, storage, false, true))})
+    navigation[shouldReplace?"replace":"navigate"](route, {
+      mistakes: readItem ?? [],
+    });
     minParent()
+  }
+
+  const gamePicker=(bool)=>{//SIDE EFFECTS
+    const pickedNum=Math.ceil(Math.random()*100)
+    if (pickedNum>50) {
+      goToGame("Emojileri Hatırla", "emojisGameMistakes", true, bool)
+    } else {
+      goToGame("Labirentten Çıkış", "emojisGameMistakes", true, bool)
+    }
   }
 
   return(
@@ -38,6 +54,9 @@ function GameMenu({ navigation, minParent, normParent }) {
       <GameLink GameIcon={"🤔"}
       onPress={()=>goToGame("Labirentten Çıkış", "emojisGameMistakes")}
       GameTitle={"Labirentten Çıkış"}/>
+      <GameLink GameIcon={"✏️"}
+      onPress={()=>gamePicker()}
+      GameTitle={"Özelleştirilmiş Test"}/>
     </View>
   )
 }

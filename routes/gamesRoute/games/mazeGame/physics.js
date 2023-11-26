@@ -25,6 +25,14 @@ const UpdateRenderer = (entities) => {
   );
 };
 
+const deleteKeyOnTouch=(KeyI, PlayerBody, entities, dispatch)=>{
+  if(entities["Key"+KeyI].body&&Matter.Collision.collides(PlayerBody, entities["Key"+KeyI].body)){
+    Matter.Composite.remove(entities.physics.world,entities["Key"+KeyI].body)
+    dispatch({type:"NewKey"})
+    entities["Key"+KeyI]={}
+  }
+}
+
 const Physics = (entities, { touches, time, dispatch }) => {
   let engine = entities.physics.engine;
   const touch = touches.at(-1);
@@ -34,8 +42,8 @@ const Physics = (entities, { touches, time, dispatch }) => {
 
     //Rotates To Touched
     const mouse = Math.atan2(
-      +touch.event.locationX - PLAYER_R_X,
-      -touch.event.locationY + PLAYER_R_Y
+      +touch.event.pageX - PLAYER_R_X,
+      -touch.event.pageY + PLAYER_R_Y
     );
     Matter.Body.setAngle(PlayerBody, mouse);
 
@@ -48,21 +56,10 @@ const Physics = (entities, { touches, time, dispatch }) => {
       y: speed * Math.sin(angle - Math.PI / 2),
     };
     Matter.Body.setVelocity(PlayerBody, newVelocity);
-    if(entities.Key1.body&&Matter.Collision.collides(PlayerBody, entities.Key1.body)){
-      Matter.Composite.remove(entities.physics.world,entities.Key1.body)
-      dispatch({type:"NewKey"})
-      entities.Key1={}
-    }
-    if(entities.Key2.body&&Matter.Collision.collides(PlayerBody, entities.Key2.body)){
-      Matter.Composite.remove(entities.physics.world,entities.Key2.body)
-      dispatch({type:"NewKey"})
-      entities.Key2={}
-    }
-    if(entities.Key3.body&&Matter.Collision.collides(PlayerBody, entities.Key3.body)){
-      Matter.Composite.remove(entities.physics.world,entities.Key3.body)
-      dispatch({type:"NewKey"})
-      entities.Key3={}
-    }
+    
+    deleteKeyOnTouch(1, PlayerBody, entities, dispatch)
+    deleteKeyOnTouch(2, PlayerBody, entities, dispatch)
+    deleteKeyOnTouch(3, PlayerBody, entities, dispatch)
   }
   //Update
   UpdateRenderer(entities);

@@ -3,15 +3,19 @@ import { StyleSheet, StatusBar, View, Text, Button } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import entities from './entities';
 import Physics from './physics';
+import {nextGame} from "../../../../jotai"
+import { useAtom } from 'jotai';
 
 export default function MazeGame() {
   const [running] = useState(true);
   const [collectedKeys, setCollectedKeys] = useState(0);
+  const [nextGameObj]=useAtom(nextGame)
+
   return (
     <>
       <View style={styles.topBar}>
         <Text style={styles.text}>{`Anahtarlar: ${collectedKeys}/3`}</Text>
-        {collectedKeys===3?<Button title='Devam Et'/>:null}
+        {collectedKeys===3?<Button onPress={nextGameObj.get} title='Devam Et'/>:null}
       </View>
       <GameEngine
         systems={[Physics]}
