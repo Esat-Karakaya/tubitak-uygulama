@@ -65,7 +65,7 @@ export default function Options({showCount, showList, mistakes}) {
         </Text>
         <Button onPress={nextGameObj.get} title='Devam Et'/>
       </>:
-      <Button onPress={onConfirm} title={reveal?"Kontrol Et":"Cevabı Gör"}/>}
+      <Button onPress={onConfirm} title={selectedE?"Kontrol Et":"Cevabı Gör"}/>}
     </Animated.View>
   );
 }
