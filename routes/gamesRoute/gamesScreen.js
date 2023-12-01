@@ -21,7 +21,6 @@ function GameMenu({ navigation, minParent, normParent }) {
   }, []);
 
   const goToGame=async (route, storage, isRandom, shouldReplace)=>{//SIDE EFFECTS
-    console.log(route, storage, isRandom, shouldReplace)
     const rawData = await getItem(storage)
     const readItem = rawData===null?null:JSON.parse(rawData)//str to arr
 

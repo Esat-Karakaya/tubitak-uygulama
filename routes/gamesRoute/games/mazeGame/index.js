@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { StyleSheet, StatusBar, View, Text, Button } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import entities from './entities';
@@ -6,7 +6,7 @@ import Physics from './physics';
 import {nextGame} from "../../../../jotai"
 import { useAtom } from 'jotai';
 
-export default function MazeGame() {
+export default MazeGame=memo(()=>{
   const [running] = useState(true);
   const [collectedKeys, setCollectedKeys] = useState(0);
   const [nextGameObj]=useAtom(nextGame)
@@ -31,7 +31,7 @@ export default function MazeGame() {
       </GameEngine>
     </>
   );
-}
+})
 
 const styles = StyleSheet.create({
   topBar: {
