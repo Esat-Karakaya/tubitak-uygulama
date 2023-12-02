@@ -1,5 +1,5 @@
 import { ScrollView, View } from "react-native"
-import EachReport from "./eachReport/eachReport";
+import EachReport from "../simpleComponents/eachReport";
 
 export default function DailyInfoScreen(){
 

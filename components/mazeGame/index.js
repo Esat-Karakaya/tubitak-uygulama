@@ -3,7 +3,7 @@ import { StyleSheet, StatusBar, View, Text, Button } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import entities from './entities';
 import Physics from './physics';
-import {nextGame} from "../../../../jotai"
+import {nextGame} from "../../jotai"
 import { useAtom } from 'jotai';
 
 export default MazeGame=memo(()=>{

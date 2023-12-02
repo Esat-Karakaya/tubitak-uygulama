@@ -1,9 +1,9 @@
 import { NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import GamesScreen from "./routes/gamesRoute/gamesScreen"
-import TipsScreen from "./routes/tipsRoute/tipsScreen"
-import ChairScreen from "./routes/chairRoute/chairScreen"
-import DailyInfoScreen from "./routes/dailyInfoRoute/dailyInfoScreen"
+import GamesScreen from "./components/routes/gamesScreen"
+import TipsScreen from "./components/routes/tipsScreen"
+import ChairScreen from "./components/routes/chairScreen"
+import DailyInfoScreen from "./components/routes/dailyInfoScreen"
 
 const Stack = createBottomTabNavigator()
 
