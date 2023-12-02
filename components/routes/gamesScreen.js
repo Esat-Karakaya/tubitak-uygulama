@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { View, } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import GameLink from "./gameLink/gameLink"
-import EmojisGame from "./games/emojisGame"
-import MazeGame from "./games/mazeGame"
+import GameLink from "../simpleComponents/gameLink"
+import EmojisGame from "../emojisGame"
+import MazeGame from "../mazeGame"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAtom } from "jotai";
 import {nextGame} from "../../jotai"

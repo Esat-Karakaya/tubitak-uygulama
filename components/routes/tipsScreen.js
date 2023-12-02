@@ -1,5 +1,5 @@
 import { ScrollView ,View ,StyleSheet } from "react-native"
-import CustomButton from "../../components/customButton/customButton"
+import CustomButton from "../simpleComponents/customButton"
 
 export default function TipsScreen(){
   return(

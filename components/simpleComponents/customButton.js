@@ -1,6 +1,5 @@
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View, StyleSheet } from 'react-native';
 import { useState } from "react"
-import styles from "./styles";
 
 export default function OptionButton({ children, onPress=()=>{}, textStyles={}, style }) {
   const [isPressed, setPressed]=useState(false)
@@ -19,3 +18,21 @@ export default function OptionButton({ children, onPress=()=>{}, textStyles={}, 
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  containerButton:{
+    justifyContent:"center",
+    alignItems:"center",
+    borderRadius:5,
+    backgroundColor:"black",
+    padding:1,
+  },
+  innerText:{
+    userSelect:"none",
+    fontSize:60,
+    width:"100%",
+    //Shadow
+    backgroundColor:"white",
+    textAlign:"center",
+  }
+});
