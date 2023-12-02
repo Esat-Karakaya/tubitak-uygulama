@@ -1,10 +1,10 @@
-import { Text, SafeAreaView, StyleSheet, Button, View } from 'react-native';
+import { Text, SafeAreaView, StyleSheet } from 'react-native';
 import Card from "./components/card/card";
 import Options from "./components/options/options"
 import { useState, useMemo, } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Game({ refresh, mistakes }) {
+export default function Game({ mistakes }) {
   const showList= useMemo(returnShowList,[])
 
   const [showCount, setShowCount] = useState(0)
@@ -15,9 +15,6 @@ export default function Game({ refresh, mistakes }) {
       <></>}
       <Card ANIM_DUR={ANIM_DUR} showCount={showCount} EMOJI_NUM={EMOJI_NUM} setShowCount={setShowCount} key={showCount} >{showList[showCount]}</Card>
       <Options showCount={showCount} mistakes={mistakes} showList={showList}/>
-      <View style={{position:"absolute",bottom:10,width:"100%",alignItems:"center"}}>
-        <Button onPress={()=>refresh((b)=>!b)} color="green" title="YENİDEN BAŞLAT"/>
-      </View>
     </SafeAreaView>
   );
 

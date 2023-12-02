@@ -1,12 +1,16 @@
 import { useEffect } from "react";
-import { View, ScrollView } from "react-native"
+import { View, } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import GameLink from "./gameLink/gameLink"
-import EmojisGame from "./games/emojisGame/gameContainer"
+import EmojisGame from "./games/emojisGame"
+import MazeGame from "./games/mazeGame"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAtom } from "jotai";
+import {nextGame} from "../../jotai"
 const {getItem, setItem} = AsyncStorage;
 
 function GameMenu({ navigation, minParent, normParent }) {
+  const [, setNextGameAtom]=useAtom(nextGame)
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -16,7 +20,7 @@ function GameMenu({ navigation, minParent, normParent }) {
     return unsubscribe;
   }, []);
 
-  const goToGame=async (route, storage)=>{
+  const goToGame=async (route, storage, isRandom, shouldReplace)=>{//SIDE EFFECTS
     const rawData = await getItem(storage)
     const readItem = rawData===null?null:JSON.parse(rawData)//str to arr
 
@@ -25,28 +29,34 @@ function GameMenu({ navigation, minParent, normParent }) {
     if (readItem===null) {//declares it a JSON arr if null
       setItem(storage, "[]")
     }
-    navigation.navigate(route, {mistakes:readItem ?? []})
+    setNextGameAtom({get:(isRandom ? ()=>gamePicker(true) : () => goToGame(route, storage, false, true))})
+    navigation[shouldReplace?"replace":"navigate"](route, {
+      mistakes: readItem ?? [],
+    });
     minParent()
   }
 
+  const gamePicker=(bool)=>{//SIDE EFFECTS
+    const pickedNum=Math.ceil(Math.random()*100)
+    if (pickedNum>50) {
+      goToGame("Emojileri Hatırla", "emojisGameMistakes", true, bool)
+    } else {
+      goToGame("Labirentten Çıkış", "emojisGameMistakes", true, bool)
+    }
+  }
+
   return(
-    <ScrollView>
-      <View style={{rowGap:10, margin:10,}}>
-        <GameLink GameIcon={"😎"}
-        onPress={()=>goToGame("Emojileri Hatırla", "emojisGameMistakes")}
-        GameTitle={"Emojileri Hatırla"}/>
-        <GameLink GameIcon={"🔑"}
-        GameTitle={"Farklı Anahtarlık"}/>
-        <GameLink GameIcon={"🎵"}
-        GameTitle={"Tersten Dinle"}/>
-        <GameLink GameIcon={"😎"}
-        GameTitle={"Emojileri Hatırla"}/>
-        <GameLink GameIcon={"🔑"}
-        GameTitle={"Farklı Anahtarlık"}/>
-        <GameLink GameIcon={"🎵"}
-        GameTitle={"Tersten Dinle"}/>
-      </View>
-    </ScrollView>
+    <View style={{rowGap:10, margin:10,}}>
+      <GameLink GameIcon={"😎"}
+      onPress={()=>goToGame("Emojileri Hatırla", "emojisGameMistakes")}
+      GameTitle={"Emojileri Hatırla"}/>
+      <GameLink GameIcon={"🤔"}
+      onPress={()=>goToGame("Labirentten Çıkış", "emojisGameMistakes")}
+      GameTitle={"Labirentten Çıkış"}/>
+      <GameLink GameIcon={"✏️"}
+      onPress={()=>gamePicker()}
+      GameTitle={"Özelleştirilmiş Test"}/>
+    </View>
   )
 }
 
@@ -68,6 +78,7 @@ export default function GamesScreen({ navigation }){
         {(props)=><GameMenu {...props} normParent={normParent} minParent={minParent} />}
       </Stack.Screen>
       <Stack.Screen name="Emojileri Hatırla" component={EmojisGame}/>
+      <Stack.Screen name="Labirentten Çıkış" component={MazeGame}/>
     </Stack.Navigator>
   )
 }

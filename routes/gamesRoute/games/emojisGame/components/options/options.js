@@ -1,8 +1,10 @@
 import { Animated, View, Dimensions, Button, Text } from 'react-native';
 import { useEffect, useRef, useState } from "react";
+import {useAtom} from "jotai"
 import OptionButton from "../optionButton/optionButton";
 import styles from "./styles";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { nextGame } from '../../../../../../jotai';
 
 const VW=Dimensions.get("window").width
 
@@ -10,6 +12,7 @@ export default function Options({showCount, showList, mistakes}) {
   const Anim = useRef(new Animated.Value(0)).current;
   const showLeft = Anim.interpolate({inputRange:[0, 1], outputRange:[VW, (VW-styles.container.width)/2]})
 
+  const [nextGameObj]=useAtom(nextGame)
   const options=useRef(showList.reduce((acc, e)=>acc.includes(e)?acc:[...acc, e],[])).current;//visible options
   const duplicate= useRef(findDuplicate(showList)).current//correct answer
   const shuffledEmojis= useRef(shuffle(options)).current// shuffles the options
@@ -56,10 +59,13 @@ export default function Options({showCount, showList, mistakes}) {
         </OptionButton>
       )}</View>
       {reveal ? 
-      (<Text style={{fontSize:20}}>
-        {selectedE===duplicate?"Tebrikler 🥳":"Çalıştıkça Gelişir 😉"}
-      </Text>):
-      <Button onPress={onConfirm} title={reveal?"Kontrol Et":"Cevabı Gör"}/>}
+      <>
+        <Text style={{fontSize:20}}>
+          {selectedE===duplicate?"Tebrikler 🥳":"Çalıştıkça Gelişir 😉"}
+        </Text>
+        <Button onPress={nextGameObj.get} title='Devam Et'/>
+      </>:
+      <Button onPress={onConfirm} title={selectedE?"Kontrol Et":"Cevabı Gör"}/>}
     </Animated.View>
   );
 }
