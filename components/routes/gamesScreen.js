@@ -1,12 +1,14 @@
-import { useEffect } from "react";
-import { View, } from "react-native"
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import GameLink from "../simpleComponents/gameLink"
 import EmojisGame from "../emojisGame"
 import MazeGame from "../mazeGame"
+import PasswordCracking from "../passwordCracking"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect } from "react";
+import { View, } from "react-native"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useAtom } from "jotai";
 import {nextGame} from "../../jotai"
+
 const {getItem, setItem} = AsyncStorage;
 
 function GameMenu({ navigation, minParent, normParent }) {
@@ -53,6 +55,9 @@ function GameMenu({ navigation, minParent, normParent }) {
       <GameLink GameIcon={"🤔"}
       onPress={()=>goToGame("Labirentten Çıkış", "emojisGameMistakes")}
       GameTitle={"Labirentten Çıkış"}/>
+      <GameLink GameIcon={"🕵️"}
+      onPress={()=>goToGame("Şifre Kırma", "emojisGameMistakes")}
+      GameTitle={"Şifre Kırma"}/>
       <GameLink GameIcon={"✏️"}
       onPress={()=>gamePicker()}
       GameTitle={"Özelleştirilmiş Test"}/>
@@ -79,6 +84,7 @@ export default function GamesScreen({ navigation }){
       </Stack.Screen>
       <Stack.Screen name="Emojileri Hatırla" component={EmojisGame}/>
       <Stack.Screen name="Labirentten Çıkış" component={MazeGame}/>
+      <Stack.Screen name="Şifre Kırma" component={PasswordCracking}/>
     </Stack.Navigator>
   )
 }
