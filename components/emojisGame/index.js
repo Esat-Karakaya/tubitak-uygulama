@@ -2,7 +2,7 @@ import { Text, StyleSheet, View } from 'react-native';
 import { useState, useEffect, } from "react";
 import Game from "./emojisGame";
 
-export default function EmojisGame({ route }){
+export default function EmojisGame(){
   const [count, setCount]=useState(3)
 
   useEffect(()=>{
@@ -18,7 +18,7 @@ export default function EmojisGame({ route }){
       </View>
     )
   }
-  return(<Game {...route.params}/>)
+  return(<Game/>)
 }
 
 const styles = StyleSheet.create({

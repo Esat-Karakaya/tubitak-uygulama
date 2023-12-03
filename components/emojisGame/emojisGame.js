@@ -1,13 +1,15 @@
-import { Text, SafeAreaView, StyleSheet } from 'react-native';
 import Card from "./card/card";
 import Options from "./options/options"
 import { useState, useMemo, } from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Text, SafeAreaView, StyleSheet } from "react-native";
+import { useAtom } from "jotai";
+import { gameMistakes } from "../../jotai";
 
-export default function Game({ mistakes }) {
+export default function Game() {
+  const [ mistakes ]=useAtom(gameMistakes)
   const showList= useMemo(returnShowList,[])
-
-  const [showCount, setShowCount] = useState(0)
+  const [ showCount, setShowCount ] = useState(0)
+  
   return (
     <SafeAreaView style={styles.container}>
       {showCount<10 ? 
@@ -20,11 +22,8 @@ export default function Game({ mistakes }) {
 
   function returnShowList (){
     if (mistakes.length>4) {
-      const oldestMistake=mistakes.shift()
-      AsyncStorage.setItem("emojisGameMistakes", JSON.stringify(mistakes))
-      return oldestMistake
+      return mistakes[0]
     }
-  
     return selectSome(emojisArr, EMOJI_NUM);
   }
 }

@@ -31,10 +31,13 @@ export default function Options({showCount, showList, mistakes}) {
   },[Anim, showCount, showList.length])
 
   const onConfirm=()=>{
-    if (selectedE!==duplicate) {
-      mistakes.push(showList)
-      AsyncStorage.setItem("emojisGameMistakes", JSON.stringify(mistakes) )
+    if (mistakes.length>4) {//If the question was a prev mistake
+      mistakes.shift()
     }
+    if (selectedE!==duplicate) {//If done incorrect add to mistakes
+      mistakes.push(showList)
+    }
+    AsyncStorage.setItem("emojisGameMistakes", JSON.stringify(mistakes))
     setReveal(true)
   }
 
