@@ -1,9 +1,9 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
-import Options from './components/options/options';
+import Options from './options/options';
 import { useState } from 'react';
 
 export default function Game() {
-  const [answer] = useState('karakte'.toUpperCase());
+  const [answer] = useState('barınak'.toUpperCase());
 
   return (
     <SafeAreaView style={styles.container}>

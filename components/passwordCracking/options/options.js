@@ -1,9 +1,12 @@
-import { View, Button, Text, TextInput } from 'react-native';
-import { useState, useMemo, useRef } from 'react';
 import OptionButton from '../optionButton/optionButton';
 import styles from './styles';
+import { View, Button, Text, TextInput } from 'react-native';
+import { useState, useMemo, useRef } from 'react';
+import { useAtom } from 'jotai';
+import { nextGame } from '../../../jotai';
 
 export default function Options({ answer }) {
+  const [nexGameObj] = useAtom(nextGame)
   const [typedStr, setTypedStr] = useState('');
   const [isQuestionShown, setIsQuestionShown] = useState(null); // true when given the correct answer
   const inputRef=useRef(null)
@@ -36,7 +39,7 @@ export default function Options({ answer }) {
           <Text style={{ fontSize: 20 }}>
             {typedStr === answer ? 'Tebrikler 🥳' : 'Çalıştıkça Gelişir 😉'}
           </Text>
-          <Button title="Devam Et" />
+          <Button onPress={nexGameObj.get} title="Devam Et" />
         </>
       );
     }

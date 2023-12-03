@@ -1,6 +1,6 @@
 import { Text, SafeAreaView, StyleSheet } from 'react-native';
-import Card from "./components/card/card";
-import Options from "./components/options/options"
+import Card from "./card/card";
+import Options from "./options/options"
 import { useState, useMemo, } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

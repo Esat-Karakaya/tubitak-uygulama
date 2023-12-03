@@ -4,7 +4,7 @@ import {useAtom} from "jotai"
 import OptionButton from "../optionButton/optionButton";
 import styles from "./styles";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { nextGame } from '../../../../jotai';
+import { nextGame } from '../../../jotai';
 
 const VW=Dimensions.get("window").width
 
