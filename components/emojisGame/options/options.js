@@ -4,7 +4,7 @@ import {useAtom} from "jotai"
 import OptionButton from "../optionButton/optionButton";
 import styles from "./styles";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { nextGame } from '../../../jotai';
+import { nextGame, gameStatistics } from '../../../jotai';
 
 const VW=Dimensions.get("window").width
 
@@ -12,12 +12,13 @@ export default function Options({showCount, showList, mistakes}) {
   const Anim = useRef(new Animated.Value(0)).current;
   const showLeft = Anim.interpolate({inputRange:[0, 1], outputRange:[VW, (VW-styles.container.width)/2]})
 
-  const [nextGameObj]=useAtom(nextGame)
-  const options=useRef(showList.reduce((acc, e)=>acc.includes(e)?acc:[...acc, e],[])).current;//visible options
-  const duplicate= useRef(findDuplicate(showList)).current//correct answer
-  const shuffledEmojis= useRef(shuffle(options)).current// shuffles the options
-  const [selectedE, setSelectedE]= useState(null)//selected emoji
-  const [reveal, setReveal]= useState(false)//true when confirmed
+  const [ nextGameObj ]=useAtom(nextGame)
+  const [ falseAndTotal ]=useAtom(gameStatistics)
+  const options=useRef(showList.reduce((acc, e)=>acc.includes(e)?acc:[...acc, e],[])).current; //visible options
+  const duplicate= useRef(findDuplicate(showList)).current //correct answer
+  const shuffledEmojis= useRef(shuffle(options)).current //shuffles the options
+  const [ selectedE, setSelectedE ] = useState(null) //selected emoji
+  const [ reveal, setReveal ] = useState(false) //true when confirmed
 
   useEffect(()=>{
     if(showCount===showList.length){
@@ -31,13 +32,21 @@ export default function Options({showCount, showList, mistakes}) {
   },[Anim, showCount, showList.length])
 
   const onConfirm=()=>{
-    if (mistakes.length>4) {//If the question was a prev mistake
+    if (mistakes.length>4) { //If the question was a prev mistake
       mistakes.shift()
     }
-    if (selectedE!==duplicate) {//If done incorrect add to mistakes
+    if (selectedE!==duplicate) { //If done incorrect add to mistakes
       mistakes.push(showList)
+      falseAndTotal.emojisGame[0]++ //Incrementing the incorrection number in DB
     }
-    AsyncStorage.setItem("emojisGameMistakes", JSON.stringify(mistakes))
+    falseAndTotal.emojisGame[1]++ //Incrementing the playing number in DB
+
+    const storageSets=[
+      ["emojisGameMistakes", JSON.stringify(mistakes)],
+      ["falseAndTotal", JSON.stringify(falseAndTotal)]
+    ]
+
+    AsyncStorage.multiSet(storageSets)
     setReveal(true)
   }
 

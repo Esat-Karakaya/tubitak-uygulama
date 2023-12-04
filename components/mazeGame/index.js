@@ -9,18 +9,19 @@ import { useAtom } from 'jotai';
 export default MazeGame=memo(()=>{
   const [running] = useState(true);
   const [collectedKeys, setCollectedKeys] = useState(0);
+  const [entitiesVal, setEntities]= useState(entities())
   const [nextGameObj]=useAtom(nextGame)
 
   return (
     <>
       <View style={styles.topBar}>
         <Text style={styles.text}>{`Anahtarlar: ${collectedKeys}/3`}</Text>
-        {collectedKeys===3?<Button onPress={nextGameObj.get} title='Devam Et'/>:null}
+        {collectedKeys===3?<Button onPress={nextGameObj.get} title='Devam Et'/>:<Button onPress={()=>setEntities(state=>state.relativity.scale=1)} title='Küçült'/>}
       </View>
       <GameEngine
         systems={[Physics]}
         style={styles.container}
-        entities={entities()}
+        entities={entitiesVal}
         running={running}
         onEvent={(e) => {
           if (e.type === 'NewKey') {

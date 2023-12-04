@@ -4,8 +4,8 @@ import packedWalls from '../helpers/wallPacker';
 import { useMemo, memo } from 'react';
 import { MAZE_TOP, MAZE_LEFT, MAZE_POS, MAZE_WIDTH, MAZE_HEIGHT } from '../constants';
 
-const Corridors = memo(({ composite, relativity }) => {
-  const concreteWalls = useMemo(ViewGenerate, []);
+const Corridors = ({ composite, relativity }) => {
+  const concreteWalls = useMemo(ViewGenerate, [relativity.scale]);
 
   function ViewGenerate() {
     return composite.bodies.map((body, i) => {
@@ -38,7 +38,7 @@ const Corridors = memo(({ composite, relativity }) => {
   }
 
   return <>{concreteWalls}</>;
-});
+};
 
 const CorridorContainer = (props) => {
   return (

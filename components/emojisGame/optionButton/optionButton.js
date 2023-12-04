@@ -6,9 +6,9 @@ export default function OptionButton({ children, isSelected, onPress, reveal, is
   let revealCss={}
   if(reveal){
     if(isAnswer){
-      revealCss={backgroundColor:"green"}
+      revealCss={backgroundColor:"#90fca0"}
     }else if(isSelected){
-      revealCss={backgroundColor:"red"}
+      revealCss={backgroundColor:"#fc9090"}
     }
   }
 

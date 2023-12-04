@@ -26,8 +26,8 @@ const Player = ({ body, relativity }) => {
       style={{
         flexDirection: 'row',
         justifyContent: 'center',
-        columnGap: 20,
-        padding: 5,
+        columnGap: renderSize*1/4,
+        padding: renderSize/10,
         width: renderSize,
         aspectRatio: 1,
         left: xBody,

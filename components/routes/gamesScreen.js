@@ -7,13 +7,14 @@ import { useEffect } from "react";
 import { View, } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useAtom } from "jotai";
-import { nextGame, gameMistakes } from "../../jotai"
+import { nextGame, gameMistakes, gameStatistics } from "../../jotai"
 
 const { getItem, setItem } = AsyncStorage;
 
 function GameMenu({ navigation, minParent, normParent }) {
   const [, setMistakesAtom] = useAtom(gameMistakes)
   const [, setNextGameAtom] = useAtom(nextGame)
+  const [GameStatisticsAtom, setGameStatisticsAtom] = useAtom(gameStatistics)
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -29,24 +30,15 @@ function GameMenu({ navigation, minParent, normParent }) {
     setMistakesAtom(readItems)
     //setItem(storage, "[]") TO RESET
 
+    setGameStatisticsAtom(GameStatisticsAtom ?? await retreiveGameStatistics())
+    console.log("gotToGame", GameStatisticsAtom)
     setNextGameAtom({ get: (isRandom ? () => randomNavigator(true) : () => goToGame(route, storage, false, true)) })
     navigation[shouldReplace ? "replace" : "navigate"](route);
     minParent()
   }
 
   const randomNavigator = async (bool) => {//SIDE EFFECTS
-    const rawData = await getItem("falseAndTotal")
-    const statistics = rawData ? JSON.parse(rawData) : { emojisGame: [5, 5], mazeGame: [5, 5], passwordCracking: [5, 5] }//parse to obj
-
-    if (rawData === null) {
-      setItem("falseAndTotal", JSON.stringify(statistics))
-    }
-
-    const pickedNum = Math.random() * 100
-    if (pickedNum > 50) {
-    } else {
-
-    }
+    const statistics= await retreiveGameStatistics()
 
     switch (pickedGame(gamePercentages(statistics))) {
       case "emojisGame":
@@ -139,4 +131,14 @@ const pickedGame = (probabilities) => {
   })
 
   return Object.keys(probabilities)[pickedI]
+}
+const retreiveGameStatistics= async ()=>{
+  const rawData = await getItem("falseAndTotal")
+  const statistics = rawData ? JSON.parse(rawData) : { emojisGame: [5, 5], mazeGame: [5, 5], passwordCracking: [5, 5] }//parse to obj
+
+  if (rawData === null) {
+    setItem("falseAndTotal", JSON.stringify(statistics))
+  }
+
+  return statistics
 }
