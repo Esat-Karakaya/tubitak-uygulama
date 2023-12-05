@@ -1,12 +1,11 @@
-import mazeStructure from './mazeGenerator';
 import Matter from 'matter-js';
 import { MAZE_TOP, MAZE_LEFT, THICKNESS, CELL_SIZE } from '../constants';
 
-export default function packedWalls() {
+export default function packedWalls(virtualWalls) {
   const newWallAt = (x, y, w, h) =>
     Matter.Bodies.rectangle(x, y, w, h, { isStatic: true }); //create
 
-  const [horizontals, verticals] = mazeStructure();
+  const [horizontals, verticals] = virtualWalls;
   const detachedWalls = [];
 
   horizontals.forEach((rowArr, rowI) => {

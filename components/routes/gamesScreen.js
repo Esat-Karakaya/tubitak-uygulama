@@ -31,6 +31,8 @@ function GameMenu({ navigation, minParent, normParent }) {
     //setItem(storage, "[]") TO RESET
 
     setGameStatisticsAtom(GameStatisticsAtom ?? await retreiveGameStatistics())
+    console.log("reached")
+    console.log("goToGame", GameStatisticsAtom ?? await retreiveGameStatistics())
     setNextGameAtom({ get: (isRandom ? () => randomNavigator(true) : () => goToGame(route, storage, false, true)) })
     navigation[shouldReplace ? "replace" : "navigate"](route);
     minParent()
@@ -60,7 +62,7 @@ function GameMenu({ navigation, minParent, normParent }) {
         onPress={() => goToGame("Emojileri Hatırla", "emojisGameMistakes")}
         GameTitle={"Emojileri Hatırla"} />
       <GameLink GameIcon={"🤔"}
-        onPress={() => goToGame("Labirentten Çıkış", "emojisGameMistakes")}
+        onPress={() => goToGame("Labirentten Çıkış", "mazeGameMistakes")}
         GameTitle={"Labirentten Çıkış"} />
       <GameLink GameIcon={"🕵️"}
         onPress={() => goToGame("Şifre Kırma", "emojisGameMistakes")}

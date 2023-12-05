@@ -7,6 +7,7 @@ import {
   MAZE_POS,
   MAZE_TOP,
   MAZE_HEIGHT,
+  SHRINKED,
 } from './constants';
 
 const UpdateRenderer = (entities) => {
@@ -48,7 +49,11 @@ const Physics = (entities, { touches, time, dispatch }) => {
     Matter.Body.setAngle(PlayerBody, mouse);
 
     //Velocity
-    const speed = 1;
+    let speed = 1;
+    
+    if (entities.relativity.scale===SHRINKED) {
+      speed = 2
+    }
     const angle = PlayerBody.angle;
 
     const newVelocity = {

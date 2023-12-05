@@ -1,8 +1,11 @@
 import { View } from 'react-native';
 import Matter from 'matter-js';
 import packedWalls from '../helpers/wallPacker';
-import { useMemo, memo } from 'react';
+import mazeStructure from '../helpers/mazeGenerator';
+import { useMemo, } from 'react';
 import { MAZE_TOP, MAZE_LEFT, MAZE_POS, MAZE_WIDTH, MAZE_HEIGHT } from '../constants';
+import { useAtom } from 'jotai';
+import { gameMistakes, virtualMaze } from '../../../jotai';
 
 const Corridors = ({ composite, relativity }) => {
   const concreteWalls = useMemo(ViewGenerate, [relativity.scale]);
@@ -55,7 +58,18 @@ const CorridorContainer = (props) => {
 };
 
 export default (world, relativity) => {
-  const wallPhysics = packedWalls();
+  const [mistakes]=useAtom(gameMistakes)
+  const [, setVirtualMaze]=useAtom(virtualMaze)
+
+  const wallPhysics = useMemo(()=>{
+    if (mistakes.length>4) {
+      setVirtualMaze(generated)
+      return packedWalls(mistakes[0])
+    }
+    const generated=mazeStructure()
+    setVirtualMaze(generated)
+    return packedWalls(generated)
+  },[]);
   Matter.World.add(world, wallPhysics);
 
   return {
