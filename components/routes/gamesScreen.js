@@ -31,7 +31,6 @@ function GameMenu({ navigation, minParent, normParent }) {
     //setItem(storage, "[]") TO RESET
 
     setGameStatisticsAtom(GameStatisticsAtom ?? await retreiveGameStatistics())
-    console.log("gotToGame", GameStatisticsAtom)
     setNextGameAtom({ get: (isRandom ? () => randomNavigator(true) : () => goToGame(route, storage, false, true)) })
     navigation[shouldReplace ? "replace" : "navigate"](route);
     minParent()

@@ -1,9 +1,9 @@
-import { useState, memo } from 'react';
-import { StyleSheet, StatusBar, View, Text, Button } from 'react-native';
+import { useState, memo, } from 'react';
+import { StyleSheet, StatusBar, View, Text, Button, } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import entities from './entities';
 import Physics from './physics';
-import {nextGame} from "../../jotai"
+import { nextGame } from "../../jotai"
 import { useAtom } from 'jotai';
 
 export default MazeGame=memo(()=>{
@@ -16,7 +16,7 @@ export default MazeGame=memo(()=>{
     <>
       <View style={styles.topBar}>
         <Text style={styles.text}>{`Anahtarlar: ${collectedKeys}/3`}</Text>
-        {collectedKeys===3?<Button onPress={nextGameObj.get} title='Devam Et'/>:<Button onPress={()=>setEntities(state=>state.relativity.scale=1)} title='Küçült'/>}
+        {collectedKeys===3?<Button onPress={nextGameObj.get} title='Devam Et'/>:<Button onPress={()=>{setEntities(state=>state.relativity.scale=1)}} title='Küçült'/>}
       </View>
       <GameEngine
         systems={[Physics]}
