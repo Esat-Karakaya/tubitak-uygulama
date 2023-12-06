@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { View, } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useAtom } from "jotai";
-import { nextGame, gameMistakes, gameStatistics } from "../../jotai"
+import { nextGame, gameMistakes, gameStatistics } from "../../globals"
 
 const { getItem, setItem } = AsyncStorage;
 
@@ -33,7 +33,17 @@ function GameMenu({ navigation, minParent, normParent }) {
     setGameStatisticsAtom(GameStatisticsAtom ?? await retreiveGameStatistics())
     console.log("reached")
     console.log("goToGame", GameStatisticsAtom ?? await retreiveGameStatistics())
-    setNextGameAtom({ get: (isRandom ? () => randomNavigator(true) : () => goToGame(route, storage, false, true)) })
+    setNextGameAtom({
+      get: (isRandom ?
+        (callback=()=>{}) => {
+          randomNavigator(true)
+          callback()
+        } :
+        (callback=()=>{}) => {
+          goToGame(route, storage, false, true)
+          callback()
+        })
+    })
     navigation[shouldReplace ? "replace" : "navigate"](route);
     minParent()
   }

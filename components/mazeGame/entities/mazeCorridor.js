@@ -5,7 +5,7 @@ import mazeStructure from '../helpers/mazeGenerator';
 import { useMemo, } from 'react';
 import { MAZE_TOP, MAZE_LEFT, MAZE_POS, MAZE_WIDTH, MAZE_HEIGHT } from '../constants';
 import { useAtom } from 'jotai';
-import { gameMistakes, virtualMaze } from '../../../jotai';
+import { gameMistakes, virtualMaze } from '../../../globals';
 
 const Corridors = ({ composite, relativity }) => {
   const concreteWalls = useMemo(ViewGenerate, [relativity.scale]);

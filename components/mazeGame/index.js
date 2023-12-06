@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, memo, } from 'react';
 import { StyleSheet, StatusBar, View, Text, Button, } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
-import { gameMistakes, gameStatistics, nextGame, virtualMaze } from "../../jotai"
+import { gameMistakes, gameStatistics, nextGame, virtualMaze } from "../../globals"
 import { useAtom } from 'jotai';
 import { SHRINKED } from './constants';
 
@@ -17,11 +17,11 @@ export default MazeGame=memo(()=>{
   const [mistakes]=useAtom(gameMistakes)
   const [virtualMazeAtom]=useAtom(virtualMaze)
 
-  const beforeLeaving=()=>{
+  const beforeLeaving=(isSuccessful)=>{
     if (mistakes.length>4) { //If the question was a prev fail
       mistakes.shift()
     }
-    if (entitiesVal.relativity.scale===SHRINKED) { //If maze was revealed add to mistakes
+    if (!isSuccessful) { //If maze was revealed add to mistakes
       mistakes.push(virtualMazeAtom)
       falseAndTotal.mazeGame[0]++ //Incrementing the incorrection number in DB
     }
@@ -41,8 +41,7 @@ export default MazeGame=memo(()=>{
         <Text style={styles.text}>{`Anahtarlar: ${collectedKeys}/3`}</Text>
         {collectedKeys===3?
           <Button onPress={()=>{
-            beforeLeaving()
-            nextGameObj.get()}
+            nextGameObj.get(beforeLeaving(entitiesVal.relativity.scale===SHRINKED))}
           } title='Devam Et'/>:
 
           <Button disabled={entitiesVal.relativity.scale===SHRINKED}

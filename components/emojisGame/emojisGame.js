@@ -3,7 +3,7 @@ import Options from "./options/options"
 import { useState, useMemo, } from "react";
 import { Text, SafeAreaView, StyleSheet } from "react-native";
 import { useAtom } from "jotai";
-import { gameMistakes } from "../../jotai";
+import { gameMistakes } from "../../globals";
 
 export default function Game() {
   const [ mistakes ]=useAtom(gameMistakes)

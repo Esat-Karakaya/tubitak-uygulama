@@ -3,7 +3,7 @@ import styles from './styles';
 import { View, Button, Text, TextInput } from 'react-native';
 import { useState, useMemo, useRef } from 'react';
 import { useAtom } from 'jotai';
-import { nextGame } from '../../../jotai';
+import { nextGame } from '../../../globals';
 
 export default function Options({ answer }) {
   const [nexGameObj] = useAtom(nextGame)
