@@ -41,7 +41,8 @@ export default MazeGame=memo(()=>{
         <Text style={styles.text}>{`Anahtarlar: ${collectedKeys}/3`}</Text>
         {collectedKeys===3?
           <Button onPress={()=>{
-            nextGameObj.get(beforeLeaving(entitiesVal.relativity.scale===SHRINKED))}
+            beforeLeaving(entitiesVal.relativity.scale===SHRINKED)
+            nextGameObj.get()}
           } title='Devam Et'/>:
 
           <Button disabled={entitiesVal.relativity.scale===SHRINKED}

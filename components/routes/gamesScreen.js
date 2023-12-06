@@ -28,20 +28,16 @@ function GameMenu({ navigation, minParent, normParent }) {
     const rawData = await getItem(storage)
     const readItems = rawData === null ? [] : JSON.parse(rawData)//parse to arr
     setMistakesAtom(readItems)
-    //setItem(storage, "[]") TO RESET
-
+    setItem(storage, "[]")
+    console.log("reached", readItems)
     setGameStatisticsAtom(GameStatisticsAtom ?? await retreiveGameStatistics())
-    console.log("reached")
-    console.log("goToGame", GameStatisticsAtom ?? await retreiveGameStatistics())
     setNextGameAtom({
       get: (isRandom ?
-        (callback=()=>{}) => {
+        () => {
           randomNavigator(true)
-          callback()
         } :
-        (callback=()=>{}) => {
+        () => {
           goToGame(route, storage, false, true)
-          callback()
         })
     })
     navigation[shouldReplace ? "replace" : "navigate"](route);
@@ -57,7 +53,7 @@ function GameMenu({ navigation, minParent, normParent }) {
         break;
 
       case "mazeGame":
-        goToGame("Labirentten Çıkış", "emojisGameMistakes", true, bool)
+        goToGame("Labirentten Çıkış", "mazeGameMistakes", true, bool)
         break;
 
       case "passwordCracking":
