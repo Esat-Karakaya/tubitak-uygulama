@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, memo, } from 'react';
 import { StyleSheet, StatusBar, View, Text, Button, } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
-import { gameMistakes, gameStatistics, nextGame, virtualMaze } from "../../globals"
+import { MAZE_LS, STATISTICS_LS, gameMistakes, gameStatistics, nextGame, virtualMaze } from "../../globals"
 import { useAtom } from 'jotai';
 import { SHRINKED } from './constants';
 
@@ -28,8 +28,8 @@ export default MazeGame=memo(()=>{
     falseAndTotal.mazeGame[1]++ //Incrementing the playing number in DB
 
     const storageSets=[
-      ["mazeGameMistakes", JSON.stringify(mistakes)],
-      ["falseAndTotal", JSON.stringify(falseAndTotal)]
+      [MAZE_LS, JSON.stringify(mistakes)],
+      [STATISTICS_LS, JSON.stringify(falseAndTotal)]
     ]
 
     AsyncStorage.multiSet(storageSets)

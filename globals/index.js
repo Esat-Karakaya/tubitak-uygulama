@@ -9,12 +9,17 @@ const mazePlayerSpeed=atom(8)
 const virtualMaze=atom(null)
 
 //Storage Keys
-EMOJIS_LS="emojisGameMistakes"//MORE ON THAT LATER
+const EMOJIS_LS="emojisGameMistakes"
+const MAZE_LS="mazeGameMistakes"
+const STATISTICS_LS="falseAndTotal"
 
 export {
     nextGame,
     gameMistakes,
     gameStatistics,
     mazePlayerSpeed,
-    virtualMaze
+    virtualMaze,
+    EMOJIS_LS,
+    MAZE_LS,
+    STATISTICS_LS
 }

@@ -4,7 +4,7 @@ import {useAtom} from "jotai"
 import OptionButton from "../optionButton/optionButton";
 import styles from "./styles";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { nextGame, gameStatistics } from '../../../globals';
+import { nextGame, gameStatistics, EMOJIS_LS, STATISTICS_LS } from '../../../globals';
 
 const VW=Dimensions.get("window").width
 
@@ -42,8 +42,8 @@ export default function Options({showCount, showList, mistakes}) {
     falseAndTotal.emojisGame[1]++ //Incrementing the playing number in DB
 
     const storageSets=[
-      ["emojisGameMistakes", JSON.stringify(mistakes)],
-      ["falseAndTotal", JSON.stringify(falseAndTotal)]
+      [EMOJIS_LS, JSON.stringify(mistakes)],
+      [STATISTICS_LS, JSON.stringify(falseAndTotal)]
     ]
 
     AsyncStorage.multiSet(storageSets)

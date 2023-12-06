@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { View, } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useAtom } from "jotai";
-import { nextGame, gameMistakes, gameStatistics } from "../../globals"
+import { nextGame, gameMistakes, gameStatistics, EMOJIS_LS, MAZE_LS, STATISTICS_LS } from "../../globals"
 
 const { getItem, setItem } = AsyncStorage;
 
@@ -49,15 +49,15 @@ function GameMenu({ navigation, minParent, normParent }) {
 
     switch (pickedGame(gamePercentages(statistics))) {
       case "emojisGame":
-        goToGame("Emojileri Hatırla", "emojisGameMistakes", true, bool)
+        goToGame("Emojileri Hatırla", EMOJIS_LS, true, bool)
         break;
 
       case "mazeGame":
-        goToGame("Labirentten Çıkış", "mazeGameMistakes", true, bool)
+        goToGame("Labirentten Çıkış", MAZE_LS, true, bool)
         break;
 
       case "passwordCracking":
-        goToGame("Şifre Kırma", "emojisGameMistakes", true, bool)
+        goToGame("Şifre Kırma", EMOJIS_LS, true, bool)
         break;
     }
   }
@@ -65,13 +65,13 @@ function GameMenu({ navigation, minParent, normParent }) {
   return (
     <View style={{ rowGap: 10, margin: 10, }}>
       <GameLink GameIcon={"😎"}
-        onPress={() => goToGame("Emojileri Hatırla", "emojisGameMistakes")}
+        onPress={() => goToGame("Emojileri Hatırla", EMOJIS_LS)}
         GameTitle={"Emojileri Hatırla"} />
       <GameLink GameIcon={"🤔"}
-        onPress={() => goToGame("Labirentten Çıkış", "mazeGameMistakes")}
+        onPress={() => goToGame("Labirentten Çıkış", MAZE_LS)}
         GameTitle={"Labirentten Çıkış"} />
       <GameLink GameIcon={"🕵️"}
-        onPress={() => goToGame("Şifre Kırma", "emojisGameMistakes")}
+        onPress={() => goToGame("Şifre Kırma", EMOJIS_LS)}
         GameTitle={"Şifre Kırma"} />
       <GameLink GameIcon={"✏️"}
         onPress={() => randomNavigator()}
@@ -140,11 +140,11 @@ const pickedGame = (probabilities) => {
   return Object.keys(probabilities)[pickedI]
 }
 const retreiveGameStatistics= async ()=>{
-  const rawData = await getItem("falseAndTotal")
+  const rawData = await getItem(STATISTICS_LS)
   const statistics = rawData ? JSON.parse(rawData) : { emojisGame: [5, 5], mazeGame: [5, 5], passwordCracking: [5, 5] }//parse to obj
 
   if (rawData === null) {
-    setItem("falseAndTotal", JSON.stringify(statistics))
+    setItem(STATISTICS_LS, JSON.stringify(statistics))
   }
 
   return statistics
