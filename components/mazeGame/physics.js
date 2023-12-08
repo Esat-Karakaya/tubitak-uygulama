@@ -7,7 +7,6 @@ import {
   MAZE_POS,
   MAZE_TOP,
   MAZE_HEIGHT,
-  SHRINKED,
 } from './constants';
 
 const UpdateRenderer = (entities) => {
@@ -50,10 +49,6 @@ const Physics = (entities, { touches, time, dispatch }) => {
 
     //Velocity
     let speed = 1;
-    
-    if (entities.relativity.scale===SHRINKED) {
-      speed = 2
-    }
     const angle = PlayerBody.angle;
 
     const newVelocity = {

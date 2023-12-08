@@ -1,23 +1,24 @@
 import entities from './entities';
 import Physics from './physics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState, memo, } from 'react';
+import { useState, memo, useEffect, } from 'react';
 import { StyleSheet, StatusBar, View, Text, Button, } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import { MAZE_LS, STATISTICS_LS, gameMistakes, gameStatistics, nextGame, virtualMaze } from "../../globals"
 import { useAtom } from 'jotai';
-import { SHRINKED } from './constants';
 
 export default MazeGame=memo(()=>{
-  const [running] = useState(true);
+  const COUNT_FROM=20
+  const [running, setRunning] = useState(true);
   const [collectedKeys, setCollectedKeys] = useState(0);
-  const [entitiesVal, setEntities]= useState(entities())
+  const [entitiesVal,]= useState(entities())
+  const [timeLeft, setTimeLeft] = useState(COUNT_FROM)
   const [nextGameObj]=useAtom(nextGame)
   const [falseAndTotal]=useAtom(gameStatistics)
   const [mistakes]=useAtom(gameMistakes)
   const [virtualMazeAtom]=useAtom(virtualMaze)
 
-  const beforeLeaving=(isSuccessful)=>{
+  const updateStorage=(isSuccessful)=>{
     if (mistakes.length>4) { //If the question was a prev fail
       mistakes.shift()
     }
@@ -35,24 +36,26 @@ export default MazeGame=memo(()=>{
     AsyncStorage.multiSet(storageSets)
   }
 
+  useEffect(()=>{
+    function everySecondFor(x, callback) {
+      let intervalId = setInterval(() => {
+        callback()
+      }, 1000);
+    
+      setTimeout(() => clearInterval(intervalId), x * 1000);
+    }
+
+    everySecondFor(COUNT_FROM, ()=>setTimeLeft((t)=>t-1))
+  },[])
+
   return (
     <>
       <View style={styles.topBar}>
         <Text style={styles.text}>{`Anahtarlar: ${collectedKeys}/3`}</Text>
+        <Text>{`Kalan Süreniz: ${timeLeft}`}</Text>
         {collectedKeys===3?
-          <Button onPress={()=>{
-            beforeLeaving(entitiesVal.relativity.scale===SHRINKED)
-            nextGameObj.get()}
-          } title='Devam Et'/>:
-
-          <Button disabled={entitiesVal.relativity.scale===SHRINKED}
-          onPress={()=>{
-            setEntities(state=>{
-              state.relativity.scale=SHRINKED
-              return state
-            })
-          }}
-          title='Küçült'/>
+          <Button onPress={nextGameObj.get} title='Devam Et'/> :
+          null
         }
       </View>
       <GameEngine
@@ -62,6 +65,9 @@ export default MazeGame=memo(()=>{
         running={running}
         onEvent={(e) => {
           if (e.type === 'NewKey') {
+            if (collectedKeys===2) {
+              setRunning(false)
+            }
             setCollectedKeys((current) => current + 1);
           }
         }}>
