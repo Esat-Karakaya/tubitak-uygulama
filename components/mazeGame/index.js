@@ -1,6 +1,7 @@
 import entities from './entities';
 import Physics from './physics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import  Modal from 'react-native-modal';
 import { useState, memo, useEffect, } from 'react';
 import { StyleSheet, StatusBar, View, Text, Button, } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
@@ -12,6 +13,7 @@ export default MazeGame=memo(()=>{
   const [running, setRunning] = useState(true);
   const [collectedKeys, setCollectedKeys] = useState(0);
   const [timeLeft, setTimeLeft] = useState(COUNT_FROM)
+  const [modalVis, setModalVis] = useState(false)
   const [nextGameObj]=useAtom(nextGame)
   const [falseAndTotal]=useAtom(gameStatistics)
   const [mistakes]=useAtom(gameMistakes)
@@ -38,7 +40,7 @@ export default MazeGame=memo(()=>{
   function stopGame(){
     setRunning(false)
     updateStorage(timeLeft!==0)
-    
+    setModalVis(true)
   }
 
   useEffect(()=>{// Count Down
@@ -58,11 +60,18 @@ export default MazeGame=memo(()=>{
       <View style={styles.topBar}>
         <Text style={styles.text}>{`Anahtarlar: ${collectedKeys}/3`}</Text>
         <Text style={styles.text}>{`Kalan Süreniz: ${timeLeft}`}</Text>
-        {!running ?
-          <Button onPress={nextGameObj.get} title='Devam Et'/> :
-          null
-        }
+        {!running && !modalVis ? <Button onPress={nextGameObj.get} title='Devam Et'/> : null}
       </View>
+      <Modal isVisible={modalVis}>
+        <View style={styles.modal}>
+          {<Text style={{fontSize:35}}>{timeLeft===0?"Süre Yetişmedi ⏱️":"Başardınız 🏆"}</Text>}
+          {<Text style={{fontSize:20}}>{timeLeft===0?"Bir Dahakine ✌️":"Alkışı Hakettiniz 👏"}</Text>}
+          <View style={{flexDirection:"row", columnGap:10}}>
+            <Button onPress={nextGameObj.get} title='Devam Et'/>
+            <Button onPress={()=>setModalVis(false)} title='Kapat'/>
+          </View>
+        </View>
+      </Modal>
       <GameEngine
         systems={[Physics]}
         style={styles.container}
@@ -103,4 +112,13 @@ const styles = StyleSheet.create({
     left: 0,
     backgroundColor: 'white',
   },
+  modal:{
+    backgroundColor:"#fff",
+    alignItems:"center",
+    padding:10,
+    aspectRatio:1,
+    rowGap:30,
+    justifyContent:"center",
+    borderRadius:20
+  }
 });
