@@ -2,12 +2,12 @@ import { View } from 'react-native';
 import Matter from 'matter-js';
 import packedWalls from '../helpers/wallPacker';
 import mazeStructure from '../helpers/mazeGenerator';
-import { useMemo, } from 'react';
+import { useMemo, memo } from 'react';
 import { MAZE_TOP, MAZE_LEFT, MAZE_POS, MAZE_WIDTH, MAZE_HEIGHT } from '../constants';
 import { useAtom } from 'jotai';
 import { gameMistakes, virtualMaze } from '../../../globals';
 
-const Corridors = ({ composite, relativity }) => {
+const Corridors = memo(({ composite, relativity }) => {
   const concreteWalls = useMemo(ViewGenerate, [relativity.scale]);
 
   function ViewGenerate() {
@@ -41,7 +41,7 @@ const Corridors = ({ composite, relativity }) => {
   }
 
   return <>{concreteWalls}</>;
-};
+})
 
 const CorridorContainer = (props) => {
   return (

@@ -29,7 +29,6 @@ function GameMenu({ navigation, minParent, normParent }) {
     const readItems = rawData === null ? [] : JSON.parse(rawData)//parse to arr
     setMistakesAtom(readItems)
     setItem(storage, "[]")
-    console.log("reached", readItems)
     setGameStatisticsAtom(GameStatisticsAtom ?? await retreiveGameStatistics())
     setNextGameAtom({
       get: (isRandom ?

@@ -1,23 +1,23 @@
 import entities from './entities';
 import Physics from './physics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState, memo, } from 'react';
+import { useState, memo, useEffect, } from 'react';
 import { StyleSheet, StatusBar, View, Text, Button, } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import { MAZE_LS, STATISTICS_LS, gameMistakes, gameStatistics, nextGame, virtualMaze } from "../../globals"
 import { useAtom } from 'jotai';
-import { SHRINKED } from './constants';
 
 export default MazeGame=memo(()=>{
-  const [running] = useState(true);
+  const COUNT_FROM=40
+  const [running, setRunning] = useState(true);
   const [collectedKeys, setCollectedKeys] = useState(0);
-  const [entitiesVal, setEntities]= useState(entities())
+  const [timeLeft, setTimeLeft] = useState(COUNT_FROM)
   const [nextGameObj]=useAtom(nextGame)
   const [falseAndTotal]=useAtom(gameStatistics)
   const [mistakes]=useAtom(gameMistakes)
   const [virtualMazeAtom]=useAtom(virtualMaze)
 
-  const beforeLeaving=(isSuccessful)=>{
+  const updateStorage=(isSuccessful)=>{
     if (mistakes.length>4) { //If the question was a prev fail
       mistakes.shift()
     }
@@ -35,33 +35,44 @@ export default MazeGame=memo(()=>{
     AsyncStorage.multiSet(storageSets)
   }
 
+  function stopGame(){
+    setRunning(false)
+    updateStorage(timeLeft!==0)
+    
+  }
+
+  useEffect(()=>{// Count Down
+    if (timeLeft===0) {// when game stops
+      stopGame()
+      return;
+    }
+    if (running) {
+      setTimeout(()=>{
+        setTimeLeft((t)=>t-1)
+      }, 1000)
+    }
+  },[timeLeft, running])
+
   return (
     <>
       <View style={styles.topBar}>
         <Text style={styles.text}>{`Anahtarlar: ${collectedKeys}/3`}</Text>
-        {collectedKeys===3?
-          <Button onPress={()=>{
-            beforeLeaving(entitiesVal.relativity.scale===SHRINKED)
-            nextGameObj.get()}
-          } title='Devam Et'/>:
-
-          <Button disabled={entitiesVal.relativity.scale===SHRINKED}
-          onPress={()=>{
-            setEntities(state=>{
-              state.relativity.scale=SHRINKED
-              return state
-            })
-          }}
-          title='Küçült'/>
+        <Text style={styles.text}>{`Kalan Süreniz: ${timeLeft}`}</Text>
+        {!running ?
+          <Button onPress={nextGameObj.get} title='Devam Et'/> :
+          null
         }
       </View>
       <GameEngine
         systems={[Physics]}
         style={styles.container}
-        entities={entitiesVal}
+        entities={entities()}
         running={running}
         onEvent={(e) => {
           if (e.type === 'NewKey') {
+            if (collectedKeys===2) {
+              stopGame()
+            }
             setCollectedKeys((current) => current + 1);
           }
         }}>
@@ -82,7 +93,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 20,
+    fontSize: 15,
   },
   container: {
     position: 'absolute',

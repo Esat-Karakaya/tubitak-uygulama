@@ -1,8 +1,5 @@
 import { Dimensions } from 'react-native';
 
-//Shrinking
-const SHRINKED=1.5
-
 //Maze Options
 const MAZE_POS = {
   x: Dimensions.get('window').width / 2,
@@ -40,5 +37,4 @@ export {
   KEY_SIZE,
   MAZE_TOP,
   MAZE_LEFT,
-  SHRINKED,
 };
