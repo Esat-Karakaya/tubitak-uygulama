@@ -64,8 +64,8 @@ export default MazeGame=memo(()=>{
       </View>
       <Modal isVisible={modalVis}>
         <View style={styles.modal}>
-          {<Text style={{fontSize:35}}>{timeLeft===0?"Süre Yetişmedi ⏱️":"Başardınız 🏆"}</Text>}
-          {<Text style={{fontSize:20}}>{timeLeft===0?"Bir Dahakine ✌️":"Alkışı Hakettiniz 👏"}</Text>}
+          {<Text style={{fontSize:35}}>{timeLeft===0?"Süre Yetişmedi ⏱️" : "Başardınız 🏆"}</Text>}
+          {<Text style={{fontSize:20}}>{timeLeft===0?"Bir Dahakine ✌️" : "Alkışı Hakettiniz 👏"}</Text>}
           <View style={{flexDirection:"row", columnGap:10}}>
             <Button onPress={nextGameObj.get} title='Devam Et'/>
             <Button onPress={()=>setModalVis(false)} title='Kapat'/>

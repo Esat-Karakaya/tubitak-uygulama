@@ -1,11 +1,11 @@
-import OptionButton from '../optionButton/optionButton';
+import Character from '../character/character';
 import styles from './styles';
 import { View, Button, Text, TextInput } from 'react-native';
 import { useState, useMemo, useRef } from 'react';
 import { useAtom } from 'jotai';
 import { nextGame } from '../../../globals';
 
-export default function Options({ answer }) {
+export default function Entry({ answer }) {
   const [nexGameObj] = useAtom(nextGame)
   const [typedStr, setTypedStr] = useState('');
   const [isQuestionShown, setIsQuestionShown] = useState(null); // true when given the correct answer
@@ -15,14 +15,14 @@ export default function Options({ answer }) {
       Array(answer.length)
         .fill(null)
         .map((_, i) => (
-          <OptionButton
+          <Character
             key={i}
             isTyped={typedStr[i] || isQuestionShown}
             reveal={isQuestionShown}>
             {typedStr !== answer && isQuestionShown
               ? answer[i]
               : typedStr[i] ?? '*'}
-          </OptionButton>
+          </Character>
         )),
     [isQuestionShown, typedStr, answer]
   );

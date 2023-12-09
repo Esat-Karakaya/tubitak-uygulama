@@ -2,7 +2,7 @@ import { View, Text, } from 'react-native';
 import styles from "./styles";
 
 
-export default function OptionButton({ children, isTyped, reveal, }) {
+export default function Character({ children, isTyped, reveal, }) {
   let revealCss={}
   if(reveal){
     revealCss={backgroundColor:"#90fca0"}

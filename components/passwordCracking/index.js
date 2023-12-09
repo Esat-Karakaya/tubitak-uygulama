@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
-import Options from './options/options';
+import Entry from './entry/entry';
 import { useState } from 'react';
 
 export default function Game() {
@@ -7,7 +7,7 @@ export default function Game() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Options answer={answer} />
+      <Entry answer={answer} />
     </SafeAreaView>
   );
 }
