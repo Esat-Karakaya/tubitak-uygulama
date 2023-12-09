@@ -27,8 +27,9 @@ function GameMenu({ navigation, minParent, normParent }) {
   const goToGame = async (route, storage, isRandom, shouldReplace) => {//SIDE EFFECTS
     const rawData = await getItem(storage)
     const readItems = rawData === null ? [] : JSON.parse(rawData)//parse to arr
-    setMistakesAtom(readItems)
-    setItem(storage, "[]")
+    setMistakesAtom(readItems)    
+    console.log(readItems)
+    
     setGameStatisticsAtom(GameStatisticsAtom ?? await retreiveGameStatistics())
     setNextGameAtom({
       get: (isRandom ?
