@@ -20,14 +20,14 @@ export default MazeGame=memo(()=>{
   const [virtualMazeAtom]=useAtom(virtualMaze)
 
   const updateStorage=(isSuccessful)=>{
-    if (mistakes.length>4) { //If the question was a prev fail
+    if (mistakes.length>4) { // If the question was a prev fail
       mistakes.shift()
     }
-    if (!isSuccessful) { //If maze was revealed add to mistakes
+    if (!isSuccessful) { // If maze was revealed add to mistakes
       mistakes.push(virtualMazeAtom)
-      falseAndTotal.mazeGame[0]++ //Incrementing the incorrection number in DB
+      falseAndTotal.mazeGame[0]++ // Incrementing the incorrection number in DB
     }
-    falseAndTotal.mazeGame[1]++ //Incrementing the playing number in DB
+    falseAndTotal.mazeGame[1]++ // Incrementing the playing number in DB
 
     const storageSets=[
       [MAZE_LS, JSON.stringify(mistakes)],
