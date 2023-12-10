@@ -1,96 +1,109 @@
-import Character from '../character/character';
-import styles from './styles';
-import { View, Button, Text, TextInput } from 'react-native';
 import { useState, useMemo, useRef } from 'react';
+import { View, Button, Text, TextInput, Pressable } from 'react-native';
 import { useAtom } from 'jotai';
 import { nextGame } from '../../../globals';
+import Character from '../character/character';
+import styles from './styles';
 
-export default function Entry({ answer }) {
-  const [nexGameObj] = useAtom(nextGame)
+export default function Entry({ answer, prompt }) {
+  // Atom hook for to select the next game
+  const [nextGameObj] = useAtom(nextGame);
+
+  // State for the typed string
   const [typedStr, setTypedStr] = useState('');
-  const [isQuestionShown, setIsQuestionShown] = useState(null); // true when given the correct answer
-  const inputRef=useRef(null)
+
+  // State to track if the answer was revealed, a guess was rejected or unsubmition
+  const [revealState, setRevealState] = useState(null);
+
+  // Reference for the TextInput component
+  const inputRef = useRef(null);
+
+  // Generate an array of Character components based on the answer
   const characters = useMemo(
     () =>
-      Array(answer.length)
-        .fill(null)
-        .map((_, i) => (
-          <Character
-            key={i}
-            isTyped={typedStr[i] || isQuestionShown}
-            reveal={isQuestionShown}>
-            {typedStr !== answer && isQuestionShown
-              ? answer[i]
-              : typedStr[i] ?? '*'}
-          </Character>
-        )),
-    [isQuestionShown, typedStr, answer]
+      answer.split('').map((character, i) => (
+        <Character
+          key={i}
+          isTyped={typedStr[i] || revealState}
+          reveal={revealState}>
+          {typedStr !== answer && revealState
+            ? character
+            : typedStr[i] ?? '*'}
+        </Character>
+      )),
+    [revealState, typedStr, answer]
   );
+
+  // Function to clear and re-ask the question
   const clearReAsk = () => {
-    setIsQuestionShown(false);
-    inputRef.current.clear()
-    setTypedStr("")
+    setRevealState(false);
+    inputRef.current.clear();
+    setTypedStr('');
   };
 
+  // JSX for bottom elements (feedback and buttons)
   const bottomElements = () => {
-    if (isQuestionShown) {
+    if (revealState) {
       return (
         <>
           <Text style={{ fontSize: 20 }}>
             {typedStr === answer ? 'Tebrikler 🥳' : 'Çalıştıkça Gelişir 😉'}
           </Text>
-          <Button onPress={nexGameObj.get} title="Devam Et" />
+          <Button onPress={nextGameObj.get} title="Devam Et" />
         </>
       );
     }
 
     return (
       <>
-        {isQuestionShown === null ? null : (
+        {revealState === false ? (
           <Text style={{ fontSize: 15 }}>
             {'Hatalı Şifre Yeniden Deneyiniz 🕵️'}
           </Text>
-        )}
-        {
-          <Button
-            onPress={() =>
-              typedStr === ''
-                ? setIsQuestionShown(true)
-                : answer === typedStr
-                ? setIsQuestionShown(true)
-                : clearReAsk()
+        ) : null}
+        <Button
+          onPress={() =>{
+            if (typedStr === '' || answer === typedStr) {
+              setRevealState(true)
+              return;
             }
-            title={typedStr === '' ? 'Cevabı Gör' : 'Kontrol Et'}
-            disabled={0 < typedStr.length && typedStr.length < answer.length}
-          />
-        }
+            clearReAsk()
+          }}
+          title={typedStr === '' ? 'Cevabı Gör' : 'Kontrol Et'}
+          disabled={0 < typedStr.length && typedStr.length < answer.length}
+        />
       </>
     );
   };
+
+  // JSX for the whole component
   return (
-    <View style={styles.container}>
-      <Text style={{ fontSize: 20, marginVertical: 20 }}>
-        {'Şifreyi Giriniz'}
-      </Text>
+    <Pressable onPress={()=>{inputRef.current.focus();}} style={styles.container}>
+      <Text style={{ fontSize: 40, fontWeight: 'bold' }}>{ prompt[0] }</Text>
+      <Text style={{ fontSize: 60 }}>{ prompt[1] }</Text>
       <View style={styles.innerContainer}>{characters}</View>
       <TextInput
         ref={inputRef}
-        onChangeText={(str) =>{
-          setTypedStr(str.replaceAll('i', 'İ').toUpperCase())
+        onChangeText={(str) => {
+          setTypedStr(str.replaceAll('i', 'İ').toUpperCase());
         }}
         contextMenuHidden={true}
         autoFocus={true}
         maxLength={answer.length}
-        editable={!isQuestionShown}
-        autoComplete={"off"}
+        editable={!revealState}
+        autoComplete={'off'}
         autoCorrect={false}
         style={{
           position: 'absolute',
-          top: -350,
+          top: 0,
+          bottom:0,
+          left:0,
+          right:0,
+          opacity:0,
         }}
       />
 
       {bottomElements()}
-    </View>
+    </Pressable>
   );
 }

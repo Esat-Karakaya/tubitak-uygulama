@@ -8,6 +8,7 @@ export default styles = StyleSheet.create({
     borderRadius:10,
     padding:3,
     rowGap:10,
+    minWidth:"80%"
   },
   innerContainer:{
     flexDirection:"row",
