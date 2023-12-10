@@ -3,8 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import {useAtom} from "jotai"
 import OptionButton from "../optionButton/optionButton";
 import styles from "./styles";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { nextGame, gameStatistics, EMOJIS_LS, STATISTICS_LS } from '../../../globals';
+import { nextGame, gameStatistics, EMOJIS_LS, updateStorage } from '../../../globals';
 
 const VW=Dimensions.get("window").width
 
@@ -32,21 +31,14 @@ export default function Options({showCount, showList, mistakes}) {
   },[Anim, showCount, showList.length])
 
   const onConfirm=()=>{
-    if (mistakes.length>4) { //If the question was a prev mistake
-      mistakes.shift()
-    }
-    if (selectedE!==duplicate) { //If done incorrect add to mistakes
-      mistakes.push(showList)
-      falseAndTotal.emojisGame[0]++ //Incrementing the incorrection number in DB
-    }
-    falseAndTotal.emojisGame[1]++ //Incrementing the playing number in DB
-
-    const storageSets=[
-      [EMOJIS_LS, JSON.stringify(mistakes)],
-      [STATISTICS_LS, JSON.stringify(falseAndTotal)]
-    ]
-
-    AsyncStorage.multiSet(storageSets)
+    updateStorage({
+      isSuccessful: selectedE!==duplicate,
+      mistakes,
+      statistics: falseAndTotal,
+      gameKey: EMOJIS_LS,
+      gameName: "emojisGame",
+      gameToAdd: showList,
+    })
     setReveal(true)
   }
 

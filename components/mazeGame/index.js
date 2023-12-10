@@ -1,11 +1,10 @@
 import entities from './entities';
 import Physics from './physics';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import  Modal from 'react-native-modal';
+import Modal from 'react-native-modal';
 import { useState, memo, useEffect, } from 'react';
 import { StyleSheet, StatusBar, View, Text, Button, } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
-import { MAZE_LS, STATISTICS_LS, gameMistakes, gameStatistics, nextGame, virtualMaze } from "../../globals"
+import { MAZE_LS, gameMistakes, gameStatistics, nextGame, virtualMaze, updateStorage } from "../../globals"
 import { useAtom } from 'jotai';
 
 export default MazeGame=memo(()=>{
@@ -17,29 +16,20 @@ export default MazeGame=memo(()=>{
   const [nextGameObj]=useAtom(nextGame)
   const [falseAndTotal]=useAtom(gameStatistics)
   const [mistakes]=useAtom(gameMistakes)
-  const [virtualMazeAtom]=useAtom(virtualMaze)
-
-  const updateStorage=(isSuccessful)=>{
-    if (mistakes.length>4) { // If the question was a prev fail
-      mistakes.shift()
-    }
-    if (!isSuccessful) { // If maze was revealed add to mistakes
-      mistakes.push(virtualMazeAtom)
-      falseAndTotal.mazeGame[0]++ // Incrementing the incorrection number in DB
-    }
-    falseAndTotal.mazeGame[1]++ // Incrementing the playing number in DB
-
-    const storageSets=[
-      [MAZE_LS, JSON.stringify(mistakes)],
-      [STATISTICS_LS, JSON.stringify(falseAndTotal)]
-    ]
-
-    AsyncStorage.multiSet(storageSets)
-  }
+  const [virtualMazeVal]=useAtom(virtualMaze)
 
   function stopGame(){
     setRunning(false)
-    updateStorage(timeLeft!==0)
+
+    updateStorage({
+      isSuccessful: timeLeft!==0,
+      mistakes,
+      statistics: falseAndTotal,
+      gameKey: MAZE_LS,
+      gameName: "mazeGame",
+      gameToAdd: virtualMazeVal,
+    })
+
     setModalVis(true)
   }
 
@@ -65,7 +55,7 @@ export default MazeGame=memo(()=>{
       <Modal isVisible={modalVis}>
         <View style={styles.modal}>
           {<Text style={{fontSize:35}}>{timeLeft===0?"Süre Yetişmedi ⏱️" : "Başardınız 🏆"}</Text>}
-          {<Text style={{fontSize:20}}>{timeLeft===0?"Bir Dahakine ✌️" : "Alkışı Hakettiniz 👏"}</Text>}
+          {<Text style={{fontSize:20}}>{timeLeft===0?"Bir Dahakine 😇" : "Alkışı Hakettiniz 👏"}</Text>}
           <View style={{flexDirection:"row", columnGap:10}}>
             <Button onPress={nextGameObj.get} title='Devam Et'/>
             <Button onPress={()=>setModalVis(false)} title='Kapat'/>

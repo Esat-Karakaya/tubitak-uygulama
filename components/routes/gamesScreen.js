@@ -79,7 +79,7 @@ function GameMenu({ navigation, minParent, normParent }) {
   )
 }
 
-export default function GamesScreen({ navigation }) {
+export default function GameNavigator({ navigation }) {
 
   const Stack = createNativeStackNavigator()
 
@@ -102,6 +102,8 @@ export default function GamesScreen({ navigation }) {
     </Stack.Navigator>
   )
 }
+
+// Pure Helper Functions
 
 const gamePercentages = (statistics) => {
   const probabilities = {}
