@@ -1,13 +1,21 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
 import Entry from './entry/entry';
-import { useState } from 'react';
+import { useMemo, } from 'react';
+import { useAtomValue } from 'jotai';
+import { gameMistakes } from '../../globals';
 
 export default function Game() {
-  const [answer] = useState(getRandomKey(QUESTIONS));
+  const mistakes = useAtomValue(gameMistakes)
+  const answer = useMemo(()=>{
+
+    if (mistakes.length > 4) { return mistakes[0] }
+    
+    return getRandomKey(QUESTIONS)
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <Entry prompt={QUESTIONS[answer]} answer={answer.replace('i', 'İ').toUpperCase()} />
+      <Entry prompt={QUESTIONS[answer]} mistakes={mistakes} answer={answer.replace('i', 'İ').toUpperCase()} />
     </SafeAreaView>
   );
 }

@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { View, } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useAtom } from "jotai";
-import { nextGame, gameMistakes, gameStatistics, EMOJIS_LS, MAZE_LS, STATISTICS_LS } from "../../globals"
+import { nextGame, gameMistakes, gameStatistics, EMOJIS_LS, MAZE_LS, PASSWORD_LS, STATISTICS_LS } from "../../globals"
 
 const { getItem, setItem } = AsyncStorage;
 
@@ -24,11 +24,11 @@ function GameMenu({ navigation, minParent, normParent }) {
     return unsubscribe;
   }, []);
 
-  const goToGame = async (route, storage, isRandom, shouldReplace) => {//SIDE EFFECTS
+  const goToGame = async (route, storage, isRandom, shouldReplace) => { // SIDE EFFECTS
     const rawData = await getItem(storage)
-    const readItems = rawData === null ? [] : JSON.parse(rawData)//parse to arr
+    const readItems = rawData === null ? [] : JSON.parse(rawData) // parse to arr
     setMistakesAtom(readItems)
-    
+    console.log(readItems)
     setGameStatisticsAtom(GameStatisticsAtom ?? await retreiveGameStatistics())
     setNextGameAtom({
       get: (isRandom ?
@@ -43,7 +43,7 @@ function GameMenu({ navigation, minParent, normParent }) {
     minParent()
   }
 
-  const randomNavigator = async (bool) => {//SIDE EFFECTS
+  const randomNavigator = async (bool) => { // SIDE EFFECTS
     const statistics= await retreiveGameStatistics()
 
     switch (pickedGame(gamePercentages(statistics))) {
@@ -56,7 +56,7 @@ function GameMenu({ navigation, minParent, normParent }) {
         break;
 
       case "passwordCracking":
-        goToGame("Şifre Kırma", EMOJIS_LS, true, bool)
+        goToGame("Şifre Kırma", PASSWORD_LS, true, bool)
         break;
     }
   }
@@ -70,7 +70,7 @@ function GameMenu({ navigation, minParent, normParent }) {
         onPress={() => goToGame("Labirentten Çıkış", MAZE_LS)}
         GameTitle={"Labirentten Çıkış"} />
       <GameLink GameIcon={"🕵️"}
-        onPress={() => goToGame("Şifre Kırma", EMOJIS_LS)}
+        onPress={() => goToGame("Şifre Kırma", PASSWORD_LS)}
         GameTitle={"Şifre Kırma"} />
       <GameLink GameIcon={"✏️"}
         onPress={() => randomNavigator()}
@@ -84,11 +84,11 @@ export default function GameNavigator({ navigation }) {
   const Stack = createNativeStackNavigator()
 
   const minParent = () => {
-    navigation.setOptions({ headerShown: false, tabBarStyle: { display: "none" } })
+    navigation.setOptions({ headerShown: false, tabBarStyle: { display: "none" }})
   }
 
   const normParent = () => {
-    navigation.setOptions({ headerShown: true, tabBarStyle: { display: "flex" } })
+    navigation.setOptions({ headerShown: true, tabBarStyle: { display: "flex" }})
   }
 
   return (
@@ -103,7 +103,7 @@ export default function GameNavigator({ navigation }) {
   )
 }
 
-// Pure Helper Functions
+ // Pure Helper Functions
 
 const gamePercentages = (statistics) => {
   const probabilities = {}
@@ -142,7 +142,12 @@ const pickedGame = (probabilities) => {
 }
 const retreiveGameStatistics= async ()=>{
   const rawData = await getItem(STATISTICS_LS)
-  const statistics = rawData ? JSON.parse(rawData) : { emojisGame: [5, 5], mazeGame: [5, 5], passwordCracking: [5, 5] }//parse to obj
+   // parse to obj
+  const statistics = rawData ? JSON.parse(rawData) : {
+    emojisGame: [5, 5],
+    mazeGame: [5, 5],
+    passwordCracking: [5, 5]
+  }
 
   if (rawData === null) {
     setItem(STATISTICS_LS, JSON.stringify(statistics))

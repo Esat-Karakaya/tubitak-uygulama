@@ -12,9 +12,19 @@ export default function Game() {
   
   return (
     <SafeAreaView style={styles.container}>
-      {showCount<10 ? 
-      <Text style={{position:"absolute",top:30,width:"100%",textAlign:"center", fontSize:20}}>{showCount+1}/{EMOJI_NUM}</Text>:
-      <></>}
+      {
+        showCount < 10 ? 
+          <Text style={{
+            position:"absolute",
+            top:30,
+            width:"100%",
+            textAlign:"center",
+            fontSize:20,
+          }}>
+            {showCount+1}/{EMOJI_NUM}
+          </Text>:
+          null
+      }
       <Card ANIM_DUR={ANIM_DUR} showCount={showCount} EMOJI_NUM={EMOJI_NUM} setShowCount={setShowCount} key={showCount} >{showList[showCount]}</Card>
       <Options showCount={showCount} mistakes={mistakes} showList={showList}/>
     </SafeAreaView>

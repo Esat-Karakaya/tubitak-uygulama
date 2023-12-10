@@ -51,7 +51,7 @@ export default function Options({showCount, showList, mistakes}) {
 
   return (
     <Animated.View style={[styles.container, { transform:[{translateX:showLeft}] }]}>
-      <Text style={{fontSize:20, marginVertical:20}}>Hangi Emoji İki Kez Geçti❓</Text>
+      <Text style={{fontSize:20, marginVertical:20}}>{ "Hangi Emoji İki Kez Geçti❓" }</Text>
       <View style={styles.innerContainer}>{shuffledEmojis.map((e, i)=>
         <OptionButton
          key={i}

@@ -12,11 +12,12 @@ const virtualMaze=atom(null)
 // Storage Keys
 const EMOJIS_LS="emojisGameMistakes"
 const MAZE_LS="mazeGameMistakes"
+const PASSWORD_LS="passwordGameMistakes"
 const STATISTICS_LS="falseAndTotal"
 
 // Helpers
 function updateStorage({ isSuccessful, mistakes, statistics, gameKey, gameName, gameToAdd }) {
-    if (mistakes.length>4) { // If the question was asked before
+    if (mistakes.length > 4) { // If the question was asked before
         mistakes.shift()
     }
     if (!isSuccessful) { // If the game was lost add to mistakes
@@ -41,6 +42,7 @@ export {
     virtualMaze,
     EMOJIS_LS,
     MAZE_LS,
+    PASSWORD_LS,
     STATISTICS_LS,
     updateStorage,
 }

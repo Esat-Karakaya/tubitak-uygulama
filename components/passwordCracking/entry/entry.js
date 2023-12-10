@@ -1,21 +1,17 @@
 import { useState, useMemo, useRef } from 'react';
 import { View, Button, Text, TextInput, Pressable } from 'react-native';
 import { useAtom } from 'jotai';
-import { nextGame } from '../../../globals';
+import { PASSWORD_LS, nextGame, updateStorage, gameStatistics } from '../../../globals';
 import Character from '../character/character';
 import styles from './styles';
 
-export default function Entry({ answer, prompt }) {
+export default function Entry({ answer, prompt, mistakes }) {
   // Atom hook for to select the next game
-  const [nextGameObj] = useAtom(nextGame);
-
-  // State for the typed string
-  const [typedStr, setTypedStr] = useState('');
-
+  const [ nextGameObj ] = useAtom(nextGame);
+  const [ falseAndTotal ]=useAtom(gameStatistics)
+  const [ typedStr, setTypedStr ] = useState('');
   // State to track if the answer was revealed, a guess was rejected or unsubmition
-  const [revealState, setRevealState] = useState(null);
-
-  // Reference for the TextInput component
+  const [ revealState, setRevealState ] = useState(null);
   const inputRef = useRef(null);
 
   // Generate an array of Character components based on the answer
@@ -56,17 +52,30 @@ export default function Entry({ answer, prompt }) {
 
     return (
       <>
-        {revealState === false ? (
-          <Text style={{ fontSize: 15 }}>
-            {'Hatalı Şifre Yeniden Deneyiniz 🕵️'}
-          </Text>
-        ) : null}
+        {
+          revealState === false ? 
+            <Text style={{ fontSize: 15 }}>
+              {'Hatalı Şifre Yeniden Deneyiniz 🕵️'}
+            </Text>:
+            null
+        }
         <Button
           onPress={() =>{
+            //If player gave up or won
             if (typedStr === '' || answer === typedStr) {
+              updateStorage({ // updating storage
+                isSuccessful: answer === typedStr,
+                mistakes,
+                statistics: falseAndTotal,
+                gameKey: PASSWORD_LS,
+                gameName: "passwordCracking",
+                gameToAdd: answer,
+              })
               setRevealState(true)
               return;
             }
+
+            // If rejected
             clearReAsk()
           }}
           title={typedStr === '' ? 'Cevabı Gör' : 'Kontrol Et'}
