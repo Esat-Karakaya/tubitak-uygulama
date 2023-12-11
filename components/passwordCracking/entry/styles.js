@@ -14,4 +14,11 @@ export default styles = StyleSheet.create({
     flexDirection:"row",
     justifyContent:"center",
   },
+  inputHider:{
+    backgroundColor:"white",
+    width:"15%", height:"10%",
+    position:"absolute",
+    left:0,
+    top:"45%",
+    zIndex:20,}
 }); 

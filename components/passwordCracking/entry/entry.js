@@ -91,6 +91,7 @@ export default function Entry({ answer, prompt, mistakes }) {
       <Text style={{ fontSize: 40, fontWeight: 'bold' }}>{ prompt[0] }</Text>
       <Text style={{ fontSize: 60 }}>{ prompt[1] }</Text>
       <View style={styles.innerContainer}>{characters}</View>
+      <View style={styles.inputHider}></View>
       <TextInput
         ref={inputRef}
         onChangeText={(str) => {
@@ -108,7 +109,6 @@ export default function Entry({ answer, prompt, mistakes }) {
           bottom:0,
           left:0,
           right:0,
-          opacity:0,
         }}
       />
 

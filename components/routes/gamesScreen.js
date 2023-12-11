@@ -28,7 +28,6 @@ function GameMenu({ navigation, minParent, normParent }) {
     const rawData = await getItem(storage)
     const readItems = rawData === null ? [] : JSON.parse(rawData) // parse to arr
     setMistakesAtom(readItems)
-    console.log(readItems)
     setGameStatisticsAtom(GameStatisticsAtom ?? await retreiveGameStatistics())
     setNextGameAtom({
       get: (isRandom ?
@@ -148,7 +147,6 @@ const retreiveGameStatistics= async ()=>{
     mazeGame: [5, 5],
     passwordCracking: [5, 5]
   }
-
   if (rawData === null) {
     setItem(STATISTICS_LS, JSON.stringify(statistics))
   }
