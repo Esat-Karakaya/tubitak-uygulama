@@ -39,7 +39,7 @@ const Key = ({ body, relativity }) => {
 };
 
 export default (world, pos, relativity) => {
-  const initialKey = Matter.Bodies.rectangle(pos.x, pos.y, KEY_SIZE, KEY_SIZE);
+  const initialKey = Matter.Bodies.rectangle(pos.x, pos.y, KEY_SIZE, KEY_SIZE, { isStatic: true });
   Matter.World.add(world, initialKey);
   return {
     body: initialKey,

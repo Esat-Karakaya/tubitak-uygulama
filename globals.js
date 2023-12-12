@@ -15,6 +15,9 @@ const MAZE_LS="mazeGameMistakes"
 const PASSWORD_LS="passwordGameMistakes"
 const STATISTICS_LS="falseAndTotal"
 
+//Navigation Display
+const NavOpts=atom({})
+
 // Helpers
 function updateStorage({ isSuccessful, mistakes, statistics, gameKey, gameName, gameToAdd }) {
     if (mistakes.length > 4) { // If the question was asked before
@@ -45,4 +48,5 @@ export {
     PASSWORD_LS,
     STATISTICS_LS,
     updateStorage,
+    NavOpts,
 }

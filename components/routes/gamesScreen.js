@@ -6,19 +6,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { View, } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { useAtom } from "jotai";
-import { nextGame, gameMistakes, gameStatistics, EMOJIS_LS, MAZE_LS, PASSWORD_LS, STATISTICS_LS } from "../../globals"
+import { useAtom, useSetAtom } from "jotai";
+import { nextGame, gameMistakes, gameStatistics, EMOJIS_LS, MAZE_LS, PASSWORD_LS, STATISTICS_LS, NavOpts } from "../../globals"
 
 const { getItem, setItem } = AsyncStorage;
 
-function GameMenu({ navigation, minParent, normParent }) {
-  const [, setMistakesAtom] = useAtom(gameMistakes)
-  const [, setNextGameAtom] = useAtom(nextGame)
+function GameMenu({ navigation,}) {
+  const setNavOptions=useSetAtom(NavOpts)
+  const setMistakesAtom = useSetAtom(gameMistakes)
+  const setNextGameAtom = useSetAtom(nextGame)
   const [GameStatisticsAtom, setGameStatisticsAtom] = useAtom(gameStatistics)
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      normParent()
+      setNavOptions({ headerShown: true, tabBarStyle: { display: "flex" }})// Display Main Nav Header
     });
 
     return unsubscribe;
@@ -39,7 +40,7 @@ function GameMenu({ navigation, minParent, normParent }) {
         })
     })
     navigation[shouldReplace ? "replace" : "navigate"](route);
-    minParent()
+    setNavOptions({ headerShown: false, tabBarStyle: { display: "none" }})// Hide Main Nav Header
   }
 
   const randomNavigator = async (bool) => { // SIDE EFFECTS
@@ -78,23 +79,13 @@ function GameMenu({ navigation, minParent, normParent }) {
   )
 }
 
-export default function GameNavigator({ navigation }) {
+export default function GameNavigator() {
 
   const Stack = createNativeStackNavigator()
 
-  const minParent = () => {
-    navigation.setOptions({ headerShown: false, tabBarStyle: { display: "none" }})
-  }
-
-  const normParent = () => {
-    navigation.setOptions({ headerShown: true, tabBarStyle: { display: "flex" }})
-  }
-
   return (
     <Stack.Navigator>
-      <Stack.Screen name="GameMenu" options={{ headerShown: false }}>
-        {(props) => <GameMenu {...props} normParent={normParent} minParent={minParent} />}
-      </Stack.Screen>
+      <Stack.Screen name="Eğitici Oyunlar" component={GameMenu} />
       <Stack.Screen name="Emojileri Hatırla" component={EmojisGame} />
       <Stack.Screen name="Labirentten Çıkış" component={MazeGame} />
       <Stack.Screen name="Şifre Kırma" component={PasswordCracking} />
