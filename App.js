@@ -4,10 +4,13 @@ import GameNavigator from "./components/routes/gamesScreen"
 import TipsScreen from "./components/routes/tipsScreen"
 import ChairScreen from "./components/routes/chairScreen"
 import DailyInfoScreen from "./components/routes/dailyInfoScreen"
+import registerNNPushToken from 'native-notify';
 
 const Stack = createBottomTabNavigator()
 
 export default function App() {
+  registerNNPushToken(15426, 'PDvWtkdZmYUHA20TrbdOAr');
+  
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Oyunlar">
