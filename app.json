@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "tubitak-uygulama",
-    "slug": "tubitak-uygulama",
+    "name": "proje-uygulama",
+    "slug": "proje-uygulama",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
