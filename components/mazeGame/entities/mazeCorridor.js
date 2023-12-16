@@ -4,7 +4,7 @@ import packedWalls from '../helpers/wallPacker';
 import mazeStructure from '../helpers/mazeGenerator';
 import { useMemo, memo } from 'react';
 import { MAZE_TOP, MAZE_LEFT, MAZE_POS, MAZE_WIDTH, MAZE_HEIGHT } from '../constants';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { gameMistakes, virtualMaze } from '../../../globals';
 
 const Corridors = memo(({ composite, relativity }) => {
@@ -59,7 +59,7 @@ const CorridorContainer = (props) => {
 
 export default (world, relativity) => {
   const [mistakes]=useAtom(gameMistakes)
-  const [, setVirtualMaze]=useAtom(virtualMaze)
+  const setVirtualMaze=useSetAtom(virtualMaze)
 
   const wallPhysics = useMemo(()=>{
     if (mistakes.length>4) {
