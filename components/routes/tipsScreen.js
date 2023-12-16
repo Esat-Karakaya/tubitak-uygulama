@@ -8,7 +8,8 @@ import { useMemo } from "react"
 function TipsScreen({ navigation }){
   const buttons=useMemo(()=>HEADERS.map((header, i)=>{
     return(
-      <CustomButton 
+      <CustomButton
+      key={header}
       style={styles.card}
       textStyles={styles.cardTitle}
       onPress={()=>{
