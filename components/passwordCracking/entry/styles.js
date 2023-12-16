@@ -16,7 +16,8 @@ export default styles = StyleSheet.create({
   },
   inputHider:{
     backgroundColor:"white",
-    width:"15%", height:"10%",
+    width:"20%",
+    height:"8%",
     position:"absolute",
     left:0,
     top:"45%",

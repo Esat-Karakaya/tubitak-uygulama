@@ -106,7 +106,7 @@ export default function Entry({ answer, prompt, mistakes }) {
         style={{
           position: 'absolute',
           top: 0,
-          bottom:0,
+          bottom:10,
           left:0,
           right:0,
         }}

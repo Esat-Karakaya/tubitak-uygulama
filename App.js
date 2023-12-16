@@ -7,6 +7,7 @@ import TipsScreen from "./components/routes/tipsScreen"
 import ChairScreen from "./components/routes/chairScreen"
 import ParrotScreen from "./components/routes/parrotScreen"
 import registerNNPushToken from 'native-notify';
+import { Ionicons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAtom } from "jotai";
 import { NavOpts } from "./globals";
 
@@ -29,10 +30,35 @@ export default function App() {
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator initialRouteName="Oyunlar"
       screenOptions={optionsVal}>
-        <Stack.Screen options={{headerShown:false, title:"Eğitici Oyunlar"}} name="Oyunlar Menüsü" component={GameNavigator} />
-        <Stack.Screen options={{headerShown:false, title:"Tavsiyeler"}} name="Tavsiyeler Menüsü" component={TipsScreen} />
-        <Stack.Screen name="Evcil Kuş" component={ParrotScreen} />
-        <Stack.Screen name="Akıllı Sandalye" component={ChairScreen} />
+
+        <Stack.Screen
+          options={{
+            headerShown:false,
+            title:"Eğitici Oyunlar",
+            tabBarIcon:()=><Ionicons name="game-controller" size={24} color="black" />
+          }}
+          name="Oyunlar Menüsü"
+          component={GameNavigator}/>
+
+        <Stack.Screen
+          options={{
+            headerShown:false,
+            title:"Tavsiyeler",
+            tabBarIcon:()=><Entypo name="book" size={24} color="black" />
+          }}
+          name="Tavsiyeler Menüsü"
+          component={TipsScreen} />
+
+        <Stack.Screen
+          options={{
+            tabBarIcon:()=><MaterialCommunityIcons name="bird" size={24} color="black" />
+          }}
+          name="Evcil Kuş"
+          component={ParrotScreen} />
+
+        <Stack.Screen
+          name="Akıllı Sandalye"
+          component={ChairScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -43,14 +69,25 @@ function registerNotification() {
 
     await Notifications.cancelAllScheduledNotificationsAsync()
 
-    await Notifications.scheduleNotificationAsync({
+    Notifications.scheduleNotificationAsync({
       content: {
         title: 'Kuşunuz ilgi istiyor',
-        body: "Kuşunuzu beslemek için dokununuz",
+        body: 'Kuşunuzu beslemek için dokununuz',
         data: { screen: 'Evcil Kuş' },
       },
       trigger: { 
-        hour: 20, minute: 20, repeats: true,
+        hour: 18, minute: 0, repeats: true,
+      }
+    });
+
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Kuşunuz ilgi istiyor',
+        body: 'Kuşunuzu beslemek için dokununuz',
+        data: { screen: 'Evcil Kuş' },
+      },
+      trigger: { 
+        hour: 12, minute: 0, repeats: true,
       }
     });
   };
