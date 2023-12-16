@@ -109,6 +109,7 @@ export default function Entry({ answer, prompt, mistakes }) {
           bottom:10,
           left:0,
           right:0,
+          color:"white",
         }}
       />
 

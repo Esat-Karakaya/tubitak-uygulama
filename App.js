@@ -4,7 +4,6 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import GameNavigator from "./components/routes/gamesScreen"
 import TipsScreen from "./components/routes/tipsScreen"
-import ChairScreen from "./components/routes/chairScreen"
 import ParrotScreen from "./components/routes/parrotScreen"
 import registerNNPushToken from 'native-notify';
 import { Ionicons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -55,10 +54,6 @@ export default function App() {
           }}
           name="Evcil Kuş"
           component={ParrotScreen} />
-
-        <Stack.Screen
-          name="Akıllı Sandalye"
-          component={ChairScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
