@@ -20,7 +20,8 @@ export default function App() {
   useEffect(()=>{
     registerNotification()
     if (lastNR) {
-      navigationRef?.current.navigate(lastNR.notification.request.content.data.screen)
+      const { screen }=lastNR.notification.request.content.data
+      screen && navigationRef?.current.navigate(screen)
     }
   }, [lastNR])
 
@@ -59,11 +60,11 @@ export default function App() {
   );
 }
 
+// register parrot notifications
 function registerNotification() {
   const triggerNotificationHandler = async () => {
-
     await Notifications.cancelAllScheduledNotificationsAsync()
-
+    
     Notifications.scheduleNotificationAsync({
       content: {
         title: 'Kuşunuz ilgi istiyor',

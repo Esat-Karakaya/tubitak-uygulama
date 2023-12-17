@@ -1,11 +1,11 @@
 import entities from './entities';
 import Physics from './physics';
-import Modal from 'react-native-modal';
 import { useState, memo, useEffect, } from 'react';
 import { StyleSheet, StatusBar, View, Text, Button, } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import { MAZE_LS, gameMistakes, gameStatistics, nextGame, virtualMaze, updateStorage } from "../../globals"
 import { useAtom } from 'jotai';
+import CustomModal from "../simpleComponents/customModal"
 
 export default MazeGame=memo(()=>{
   const COUNT_FROM=40
@@ -52,16 +52,12 @@ export default MazeGame=memo(()=>{
         <Text style={styles.text}>{`Kalan Süreniz: ${timeLeft}`}</Text>
         {!running && !modalVis ? <Button onPress={nextGameObj.get} title='Devam Et'/> : null}
       </View>
-      <Modal isVisible={modalVis}>
-        <View style={styles.modal}>
-          {<Text style={{fontSize:35}}>{timeLeft===0?"Süre Yetişmedi ⏱️" : "Başardınız 🏆"}</Text>}
-          {<Text style={{fontSize:20}}>{timeLeft===0?"Bir Dahakine 😇" : "Alkışı Hakettiniz 👏"}</Text>}
-          <View style={{flexDirection:"row", columnGap:10}}>
-            <Button onPress={nextGameObj.get} title='Devam Et'/>
-            <Button onPress={()=>setModalVis(false)} title='Kapat'/>
-          </View>
-        </View>
-      </Modal>
+      <CustomModal
+        visible={modalVis}
+        onClose={()=>setModalVis(false)}
+        onContinue={nextGameObj.get}
+        title={timeLeft===0?"Süre Yetişmedi ⏱️" : "Başardınız 🏆"}
+        body={timeLeft===0?"Bir Dahakine 😇" : "Alkışı Hakettiniz 👏"}/>
       <GameEngine
         systems={[Physics]}
         style={styles.container}
@@ -102,13 +98,4 @@ const styles = StyleSheet.create({
     left: 0,
     backgroundColor: 'white',
   },
-  modal:{
-    backgroundColor:"#fff",
-    alignItems:"center",
-    padding:10,
-    aspectRatio:1,
-    rowGap:30,
-    justifyContent:"center",
-    borderRadius:20
-  }
 });
