@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "242284370079",
+    "project_id": "android-nn-bildirim",
+    "storage_bucket": "android-nn-bildirim.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242284370079:android:df99edf48e9566b83baaaa",
+        "android_client_info": {
+          "package_name": "com.powershell.tubitakuygulama"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDthD_BMNeRstxDwqDCr-hrt5x6474JGH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

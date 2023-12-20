@@ -80,7 +80,7 @@ const styles=StyleSheet.create({
 async function getToDo(setFunc) {
   await AsyncStorage.setItem("parrot", "[]")
   const rawParrot_LS=(await AsyncStorage.getItem('parrot')) ?? "[]"
-  console.log(rawParrot_LS)
+  
   setFunc(JSON.parse(rawParrot_LS))
 }
 
