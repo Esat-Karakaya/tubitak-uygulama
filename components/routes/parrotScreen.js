@@ -1,6 +1,6 @@
 import { StyleSheet, View, Image, Dimensions, Text } from "react-native";
 import OptionButton from "../simpleComponents/customButton"
-import Img from "../../assets/parrot.jpp"
+import Img from "../../assets/parrot.jpg"
 import { useEffect, useMemo, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomModal from "../simpleComponents/customModal"

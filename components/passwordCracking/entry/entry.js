@@ -10,7 +10,7 @@ export default function Entry({ answer, prompt, mistakes }) {
   const [ nextGameObj ] = useAtom(nextGame);
   const [ falseAndTotal ]=useAtom(gameStatistics)
   const [ typedStr, setTypedStr ] = useState('');
-  // State to track if the answer was revealed, a guess was rejected or unsubmition
+  // State to track if the answer was revealed, a rejection or unsubmition
   const [ revealState, setRevealState ] = useState(null);
   const inputRef = useRef(null);
 
@@ -79,7 +79,7 @@ export default function Entry({ answer, prompt, mistakes }) {
             clearReAsk()
           }}
           title={typedStr === '' ? 'Cevabı Gör' : 'Kontrol Et'}
-          disabled={0 < typedStr.length && typedStr.length < answer.length}
+          disabled={(0 < typedStr.length && typedStr.length < answer.length) && !revealState}
         />
       </>
     );
