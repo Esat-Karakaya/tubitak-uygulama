@@ -12,7 +12,7 @@ const draggableBox=(entity, entities, touch)=>{
     body.top > ParrotBody.top &&
     body.top + body.size < ParrotBody.top + ParrotBody.size
   ){
-    entity.renderer=<></>
+    entity.drop=true
   }else{
     entity.body=JSON.parse(JSON.stringify(entity.initials))
   }
@@ -25,7 +25,7 @@ const Physics = (entities, { touches, }) => {
   draggableBox(Food, entities, touch)
   if(!touch){
     entities.UpCount++
-    if(entities.UpCount>20){
+    if(entities.UpCount>10){
       entities.UpCount=0
       Food.body.isPressed=false
       Water.body.isPressed=false

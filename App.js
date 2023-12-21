@@ -10,6 +10,7 @@ import { Ionicons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAtom } from "jotai";
 import { NavOpts } from "./globals";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View } from "react-native";
 
 const Stack = createBottomTabNavigator()
 
@@ -52,6 +53,7 @@ export default function App() {
 
         <Stack.Screen
           options={{
+            headerTransparent:true,
             tabBarIcon:()=><MaterialCommunityIcons name="bird" size={24} color="black" />
           }}
           name="Evcil Kuş"

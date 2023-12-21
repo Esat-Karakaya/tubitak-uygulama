@@ -32,7 +32,7 @@ const Box = ({ body, type }) => {
 export default (type, arr) => {
   const size=70;
   const left=Dimensions.get('window').width*arr[0]/(arr[1]+1) - size/2;
-  const top=Dimensions.get('window').height - size -5;
+  const top=Dimensions.get('window').height - size/2 -50;
 
   return {
     body: { top, left, size, isPressed:false, },

@@ -1,5 +1,5 @@
 import { Image, Dimensions } from 'react-native';
-import Img from "../assets/mature-parrot.png";
+import Img from "../../assets/parrot.jpg";
 
 const Parrot = ({ body, }) => {
   const {left, top, size} = body
