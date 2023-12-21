@@ -6,7 +6,7 @@ const BottomTab = () => {
     <View
       style={{
         borderTopWidth:3,
-        height:100,
+        height:90,
         position:"absolute",
         bottom:0,
         left:0,
