@@ -1,7 +1,7 @@
 import { Pressable, Text, View, StyleSheet } from 'react-native';
 import { useState } from "react"
 
-export default function OptionButton({ children, onPress=()=>{}, textStyles={}, style }) {
+export default function CustomButton({ children, onPress=()=>{}, textStyles={}, style }) {
   const [isPressed, setPressed]=useState(false)
 
   return (

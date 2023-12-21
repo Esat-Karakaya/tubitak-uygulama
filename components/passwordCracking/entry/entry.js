@@ -5,7 +5,7 @@ import { PASSWORD_LS, nextGame, updateStorage, gameStatistics } from '../../../g
 import Character from '../character/character';
 import styles from './styles';
 
-export default function Entry({ answer, prompt, mistakes }) {
+export default function Entry({ answer, prompt, mistakes, answerLower }) {
   // Atom hook for to select the next game
   const [ nextGameObj ] = useAtom(nextGame);
   const [ falseAndTotal ]=useAtom(gameStatistics)
@@ -69,7 +69,7 @@ export default function Entry({ answer, prompt, mistakes }) {
                 statistics: falseAndTotal,
                 gameKey: PASSWORD_LS,
                 gameName: "passwordCracking",
-                gameToAdd: answer,
+                gameToAdd: answerLower,
               })
               setRevealState(true)
               return;
@@ -79,7 +79,6 @@ export default function Entry({ answer, prompt, mistakes }) {
             clearReAsk()
           }}
           title={typedStr === '' ? 'Cevabı Gör' : 'Kontrol Et'}
-          disabled={(0 < typedStr.length && typedStr.length < answer.length) && !revealState}
         />
       </>
     );

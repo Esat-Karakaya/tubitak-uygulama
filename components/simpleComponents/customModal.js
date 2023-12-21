@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Button, Modal } from 'react-native';
+import { StyleSheet, View, Text, Modal, Button } from 'react-native';
 
 export default function CustomModal({title, body, visible, onClose, onContinue}) {
     return(

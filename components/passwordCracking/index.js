@@ -12,10 +12,10 @@ export default function Game() {
     
     return getRandomKey(QUESTIONS)
   }, []);
-
+  
   return (
     <SafeAreaView style={styles.container}>
-      <Entry prompt={QUESTIONS[answer]} mistakes={mistakes} answer={answer.replace('i', 'İ').toUpperCase()} />
+      <Entry prompt={QUESTIONS[answer]} mistakes={mistakes} answerLower={answer} answer={answer.replace('i', 'İ').toUpperCase()} />
     </SafeAreaView>
   );
 }

@@ -54,13 +54,12 @@ export default function Options({showCount, showList, mistakes}) {
       <Text style={{fontSize:20, marginVertical:20}}>{ "Hangi Emoji İki Kez Geçti❓" }</Text>
       <View style={styles.innerContainer}>{shuffledEmojis.map((e, i)=>
         <OptionButton
-         key={i}
-         onPress={()=>onSelect(e)}
-         isAnswer={duplicate===e}
-         reveal={reveal}
-         isSelected={selectedE===e}>
-          {e}
-        </OptionButton>
+          key={i}
+          onPress={()=>onSelect(e)}
+          isAnswer={duplicate===e}
+          reveal={reveal}
+          isSelected={selectedE===e}
+          children={e} />
       )}</View>
       {reveal ? 
       <>

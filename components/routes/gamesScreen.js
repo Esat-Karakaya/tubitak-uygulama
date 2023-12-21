@@ -9,7 +9,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useAtom, useSetAtom } from "jotai";
 import { nextGame, gameMistakes, gameStatistics, EMOJIS_LS, MAZE_LS, PASSWORD_LS, STATISTICS_LS, NavOpts } from "../../globals"
 
-const { getItem, setItem } = AsyncStorage;
+const { getItem, setItem, } = AsyncStorage;
 
 function GameMenu({ navigation,}) {
   const setNavOptions=useSetAtom(NavOpts)
@@ -26,18 +26,15 @@ function GameMenu({ navigation,}) {
   }, []);
 
   const goToGame = async (route, storage, isRandom, shouldReplace) => { // SIDE EFFECTS
-    const rawData = await getItem(storage)
-    const readItems = rawData === null ? [] : JSON.parse(rawData) // parse to arr
+    let rawData = (await getItem(storage)) ?? "[]"
+    
+    const readItems = JSON.parse(rawData) // parse to arr
     setMistakesAtom(readItems)
     setGameStatisticsAtom(GameStatisticsAtom ?? await retreiveGameStatistics())
     setNextGameAtom({
       get: (isRandom ?
-        () => {
-          randomNavigator(true)
-        } :
-        () => {
-          goToGame(route, storage, false, true)
-        })
+        () => { randomNavigator(true) } :
+        () => { goToGame(route, storage, false, true) })
     })
     navigation[shouldReplace ? "replace" : "navigate"](route);
     setNavOptions({ headerShown: false, tabBarStyle: { display: "none" }})// Hide Main Nav Header
@@ -97,7 +94,6 @@ export default function GameNavigator() {
 
 const gamePercentages = (statistics) => {
   const probabilities = {}
-
   const sum = Object.entries(statistics).reduce((acc, gameInfo) => {
     const inaccuracy = gameInfo[1][0] / gameInfo[1][1]
     probabilities[gameInfo[0]] = inaccuracy
