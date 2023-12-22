@@ -9,7 +9,7 @@ export default function Paragraph({ route, navigation }) {
     },[])
 
     return(
-        <ScrollView>
+        <ScrollView style={styles.container}>
             <Text style={styles.paragraph}> { PARAGRAPHS[route.params.tipId] } </Text>
             <Button title="Uygulamaya Başla"/>
         </ScrollView>
@@ -17,10 +17,15 @@ export default function Paragraph({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
+    container:{
+        contentContainerStyle:{
+            justifyContent:"center",
+        },
+        margin:20,
+    },
     paragraph:{
         textAlign:"center",
         fontSize:20,
-        margin:10,
-        justifyContent:"center",
+        paddingBottom:20
     }
 })

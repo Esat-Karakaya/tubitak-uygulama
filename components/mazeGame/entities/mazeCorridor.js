@@ -60,10 +60,8 @@ const CorridorContainer = (props) => {
 export default (world, relativity) => {
   const [mistakes]=useAtom(gameMistakes)
   const setVirtualMaze=useSetAtom(virtualMaze)
-
   const wallPhysics = useMemo(()=>{
     if (mistakes.length>4) {
-      setVirtualMaze(generated)
       return packedWalls(mistakes[0])
     }
     const generated=mazeStructure()

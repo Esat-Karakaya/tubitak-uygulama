@@ -8,7 +8,7 @@ import { useAtom } from 'jotai';
 import CustomModal from "../simpleComponents/customModal"
 
 export default MazeGame=memo(()=>{
-  const COUNT_FROM=40
+  const COUNT_FROM=25
   const [running, setRunning] = useState(true);
   const [collectedKeys, setCollectedKeys] = useState(0);
   const [timeLeft, setTimeLeft] = useState(COUNT_FROM)
@@ -19,17 +19,17 @@ export default MazeGame=memo(()=>{
   const [virtualMazeVal]=useAtom(virtualMaze)
 
   function stopGame(){
+    if (running) {
+      updateStorage({
+        isSuccessful: timeLeft!==0,
+        mistakes,
+        statistics: falseAndTotal,
+        gameKey: MAZE_LS,
+        gameName: "mazeGame",
+        gameToAdd: virtualMazeVal,
+      })
+    }
     setRunning(false)
-
-    updateStorage({
-      isSuccessful: timeLeft!==0,
-      mistakes,
-      statistics: falseAndTotal,
-      gameKey: MAZE_LS,
-      gameName: "mazeGame",
-      gameToAdd: virtualMazeVal,
-    })
-
     setModalVis(true)
   }
 
@@ -38,11 +38,11 @@ export default MazeGame=memo(()=>{
       stopGame()
       return;
     }
-    if (running) {
-      setTimeout(()=>{
-        setTimeLeft((t)=>t-1)
-      }, 1000)
-    }
+    setTimeout(()=>{
+      if (running) {
+        setTimeLeft(t=>t-1)
+      }
+    }, 1000)
   },[timeLeft, running])
 
   return (
