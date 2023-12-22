@@ -15,8 +15,11 @@ const MAZE_LS="mazeGameMistakes"
 const PASSWORD_LS="passwordGameMistakes"
 const STATISTICS_LS="falseAndTotal"
 
-//Navigation Display
+// Navigation Display
 const NavOpts=atom({})
+
+// Habbit Notification
+const pickedTips=atom(null)
 
 // Helpers
 function updateStorage({ isSuccessful, mistakes, statistics, gameKey, gameName, gameToAdd }) {
@@ -74,4 +77,5 @@ export {
   NavOpts,
   HEADERS,
   PARAGRAPHS,
+  pickedTips,
 }

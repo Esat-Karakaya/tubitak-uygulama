@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, } from "react";
 import * as Notifications from 'expo-notifications';
 import { NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -9,8 +9,7 @@ import registerNNPushToken from 'native-notify';
 import { Ionicons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAtom } from "jotai";
 import { NavOpts } from "./globals";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View } from "react-native";
+import { Alert } from "react-native";
 
 const Stack = createBottomTabNavigator()
 
@@ -20,10 +19,10 @@ export default function App() {
   const lastNR = Notifications.useLastNotificationResponse()
 
   useEffect(()=>{
-    registerNotification()
     if (lastNR) {
-      const { screen }=lastNR.notification.request.content.data
-      screen && navigationRef?.current.navigate(screen)
+      const { title }=lastNR.notification.request.content
+      const { modalMessage }=lastNR.notification.request.content.data
+      Alert.alert(title, modalMessage, [{text: 'Tamam'}])
     }
   }, [lastNR])
 
@@ -61,39 +60,4 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
-
-// register parrot notifications
-function registerNotification() {
-  const triggerNotificationHandler = async () => {
-    parrot_LS = await AsyncStorage.getItem("parrot")
-    
-    if (!parrot_LS) { // Run this once in the lifetime of the app
-      AsyncStorage.setItem("parrot","[]")
-
-      Notifications.scheduleNotificationAsync({
-        content: {
-          title: 'Kuşunuz ilgi istiyor',
-          body: 'Kuşunuzu beslemek için dokununuz',
-          data: { screen: 'Evcil Kuş' },
-        },
-        trigger: { 
-          hour: 18, minute: 0, repeats: true,
-        }
-      });
-  
-      Notifications.scheduleNotificationAsync({
-        content: {
-          title: 'Kuşunuz ilgi istiyor',
-          body: 'Kuşunuzu beslemek için dokununuz',
-          data: { screen: 'Evcil Kuş' },
-        },
-        trigger: { 
-          hour: 12, minute: 0, repeats: true,
-        }
-      });
-    }
-  };
-
-  triggerNotificationHandler();
 }
