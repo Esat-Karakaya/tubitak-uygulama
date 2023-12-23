@@ -3,8 +3,8 @@ import Physics from './physics';
 import { useState, memo, useEffect, } from 'react';
 import { StyleSheet, StatusBar, View, Text, Button, } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
-import { MAZE_LS, gameMistakes, gameStatistics, gameData, virtualMaze, updateStorage, pointsAtom } from "../../globals"
-import { useAtom, useSetAtom } from 'jotai';
+import { MAZE_LS, gameMistakes, gameStatistics, gameData, virtualMaze, updateStorage, pointsAtom, setPointTo } from "../../globals"
+import { useAtom, } from 'jotai';
 import CustomModal from "../simpleComponents/customModal"
 
 export default MazeGame=memo(()=>{
@@ -17,7 +17,7 @@ export default MazeGame=memo(()=>{
   const [falseAndTotal]=useAtom(gameStatistics)
   const [mistakes]=useAtom(gameMistakes)
   const [virtualMazeVal]=useAtom(virtualMaze)
-  const setPoints = useSetAtom(pointsAtom)
+  const [ pointsVal, setPoints ] = useAtom(pointsAtom)
 
   function stopGame(){
     if (running) {
@@ -32,7 +32,10 @@ export default MazeGame=memo(()=>{
     }
     setRunning(false)
     setModalVis(true)
-    setPoints((prev => prev+gameData.addPoint))
+    setPointTo({
+      value: pointsVal + gameDataObj.addPoint,
+      updateAtomWith: setPoints
+    })
   }
 
   useEffect(()=>{// Count Down

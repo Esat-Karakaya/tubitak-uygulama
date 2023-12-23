@@ -42,6 +42,10 @@ function updateStorage({ isSuccessful, mistakes, statistics, gameKey, gameName, 
 
   AsyncStorage.multiSet(storageSets)
 }
+function setPointTo({value, updateAtomWith}) {
+  AsyncStorage.setItem("point_LS", String(value))
+  updateAtomWith(value)
+}
 
 // Articles
 const PARAGRAPHS = [
@@ -54,7 +58,6 @@ const PARAGRAPHS = [
   'İşitsel teknikler, hafızamızı güçlendirmemizde önemli bir rol oynar. Örneğin, bilgiyi tekrar etmek, sesli olarak okumak veya kaydedilen notları dinlemek gibi işitsel teknikler, bilgiyi işleme ve hatırlama süreçlerini destekler. Bazı insanlarda bilgiyi duymak veya tekrar etmek, öğrenme süreçlerini daha etkili hale getirir. Bu teknikler, bilgiyi işiterek öğrenmeyi ve daha sonra hatırlamayı kolaylaştırır. Bu nedenle işitsel teknikler, öğrenme ve bilginin hafızamızda kalma sürecini artırmada faydalı olabilir.',
   'Tekrar etmek, bilgiyi hafızamızda tutma ve hatırlama sürecimizi güçlendirir. Bu yöntem, bilgiyi daha derinlemesine işlememizi ve uzun süreli belleğe aktarmamızı sağlar. Yineleme, beynimizdeki sinir bağlantılarını güçlendirir ve bilginin daha uzun süreli olarak hatırlamamıza yardımcı olur. Kısacası, düzenli tekrarlar, öğrendiğiniz şeyleri unutmaktan koruyarak hafızamızın güçlenmesine yardımcı olur.',
 ];
-
 const HEADERS = [
   "Hafızayı Geliştirmenin Yolları",
   "Egzersizin Hafızaya Faydaları",
@@ -81,5 +84,6 @@ export {
   HEADERS,
   PARAGRAPHS,
   pickedTips,
-  pointsAtom
+  pointsAtom,
+  setPointTo
 }

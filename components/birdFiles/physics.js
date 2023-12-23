@@ -7,7 +7,7 @@ const draggableBox = (entity, entities, touch, dispatch,) => {
     dispatch({type:"used", box:entity.type})
     return
   }
-  if (body.isPressed && pageX) { // if user is touching screen
+  if (body.isPressed && pageX) { // if box was selected and user is touching screen
     body.left = pageX - body.size / 2;
     body.top = pageY - body.size / 2;
   } else if ( // if inside the parrot image

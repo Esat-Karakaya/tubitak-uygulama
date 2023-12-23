@@ -7,16 +7,26 @@ import TipsScreen from "./components/routes/tipsScreen"
 import ParrotScreen from "./components/routes/parrotScreen"
 import registerNNPushToken from 'native-notify';
 import { Ionicons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAtom } from "jotai";
-import { NavOpts } from "./globals";
+import { useAtom, useSetAtom } from "jotai";
+import { NavOpts, pointsAtom } from "./globals";
 import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createBottomTabNavigator()
+AsyncStorage.removeItem("point_LS")
+AsyncStorage.removeItem("lastFedPoint_LS")
 
 export default function App() {
-  const [optionsVal]=useAtom(NavOpts)
-  const navigationRef=useRef(null)
+  const [optionsVal] = useAtom(NavOpts)
+  const setPoints = useSetAtom(pointsAtom)
+  const navigationRef = useRef(null)
   const lastNR = Notifications.useLastNotificationResponse()
+
+  useEffect(()=>{
+    AsyncStorage.getItem("point_LS").then( data => {
+      setPoints(Number(data))
+    })
+  }, [])
 
   useEffect(()=>{
     if (lastNR) {
@@ -51,7 +61,8 @@ export default function App() {
         <Stack.Screen
           options={{
             headerTransparent:true,
-            tabBarIcon:()=><MaterialCommunityIcons name="bird" size={24} color="black" />
+            tabBarIcon:()=><MaterialCommunityIcons name="bird" size={24} color="black" />,
+            unmountOnBlur:true,
           }}
           name="Evcil Kuş"
           component={ParrotScreen} />

@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef } from 'react';
 import { View, Button, Text, TextInput, Pressable } from 'react-native';
-import { useAtom, useSetAtom } from 'jotai';
-import { PASSWORD_LS, gameData, updateStorage, gameStatistics, pointsAtom } from '../../../globals';
+import { useAtom, } from 'jotai';
+import { PASSWORD_LS, gameData, updateStorage, gameStatistics, pointsAtom, setPointTo } from '../../../globals';
 import Character from '../character/character';
 import styles from './styles';
 
@@ -9,7 +9,7 @@ export default function Entry({ answer, prompt, mistakes, answerLower }) {
   const [ gameDataObj ] = useAtom(gameData);
   const [ falseAndTotal ]=useAtom(gameStatistics)
   const [ typedStr, setTypedStr ] = useState('');
-  const setPoints = useSetAtom(pointsAtom)
+  const [ pointsVal, setPoints ] = useAtom(pointsAtom)
   // State to track if the answer was revealed, a rejection or unsubmition
   const [ revealState, setRevealState ] = useState(null);
   const inputRef = useRef(null);
@@ -73,7 +73,10 @@ export default function Entry({ answer, prompt, mistakes, answerLower }) {
                 gameToAdd: answerLower,
               })
               setRevealState(true)
-              setPoints((prev => prev+gameData.addPoint))
+              setPointTo({
+                value: pointsVal + gameDataObj.addPoint,
+                updateAtomWith: setPoints
+              })
               return;
             }
 
@@ -106,10 +109,10 @@ export default function Entry({ answer, prompt, mistakes, answerLower }) {
         autoCorrect={false}
         style={{
           position: 'absolute',
-          height:"90%",
+          height:250,
           left:0,
           right:0,
-          color:"black",
+          color:"white",
         }}
       />
 

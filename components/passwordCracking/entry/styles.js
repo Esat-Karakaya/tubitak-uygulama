@@ -17,10 +17,10 @@ export default styles = StyleSheet.create({
   inputHider:{
     backgroundColor:"white",
     width:"20%",
-    height:"15%",
+    height:40,
     position:"absolute",
     left:0,
-    top:"35%",
+    top:100,
     zIndex:20,
   }
 }); 

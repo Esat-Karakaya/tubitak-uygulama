@@ -1,9 +1,9 @@
 import { Animated, View, Dimensions, Button, Text } from 'react-native';
 import { useEffect, useRef, useState } from "react";
-import {useAtom, useSetAtom} from "jotai"
+import {useAtom,} from "jotai"
 import OptionButton from "../optionButton/optionButton";
 import styles from "./styles";
-import { gameData, gameStatistics, EMOJIS_LS, updateStorage, pointsAtom } from '../../../globals';
+import { gameData, gameStatistics, EMOJIS_LS, updateStorage, pointsAtom, setPointTo, } from '../../../globals';
 
 const VW=Dimensions.get("window").width
 
@@ -13,12 +13,12 @@ export default function Options({showCount, showList, mistakes}) {
 
   const [ gameDataObj ]=useAtom(gameData)
   const [ falseAndTotal ]=useAtom(gameStatistics)
-  const options=useRef(showList.reduce((acc, e)=>acc.includes(e)?acc:[...acc, e],[])).current; //visible options
-  const duplicate= useRef(findDuplicate(showList)).current //correct answer
-  const shuffledEmojis= useRef(shuffle(options)).current //shuffles the options
-  const [ selectedE, setSelectedE ] = useState(null) //selected emoji
-  const [ reveal, setReveal ] = useState(false) //true when confirmed
-  const setPoints = useSetAtom(pointsAtom)
+  const options=useRef(showList.reduce((acc, e)=>acc.includes(e)?acc:[...acc, e],[])).current; // visible options
+  const duplicate= useRef(findDuplicate(showList)).current // correct answer
+  const shuffledEmojis= useRef(shuffle(options)).current // shuffles the options
+  const [ selectedE, setSelectedE ] = useState(null) // selected emoji
+  const [ reveal, setReveal ] = useState(false) // true when confirmed
+  const [ pointsVal, setPoints ] = useAtom(pointsAtom)
 
   useEffect(()=>{
     if(showCount===showList.length){
@@ -41,7 +41,10 @@ export default function Options({showCount, showList, mistakes}) {
       gameToAdd: showList,
     })
     setReveal(true)
-    setPoints((prev => prev+gameData.addPoint))
+    setPointTo({
+      value: pointsVal + gameDataObj.addPoint,
+      updateAtomWith: setPoints
+    })
   }
 
   const onSelect=(e)=>{

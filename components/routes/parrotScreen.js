@@ -4,20 +4,36 @@ import { GameEngine } from 'react-native-game-engine';
 import entities from '../birdFiles/entities';
 import Physics from '../birdFiles/physics';
 import { useAtom } from 'jotai';
-import { pointsAtom } from "../../globals";
+import { pointsAtom, setPointTo } from "../../globals";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function App() {
+export default function ParrotScreen() {
   const [ droppeds, setDroppeds ] = useState("")
-  const [, setPoints]=useAtom(pointsAtom)
+  const [ pointsVal, setPoints] = useAtom(pointsAtom)
+  const [ lastFedPoint, setLastFedPoint ] = useState(0)
 
-  const isRunning = droppeds!=="💧🫐" || droppeds!=="🫐💧"
+  const pointMargin = pointsVal - lastFedPoint
+  const isFeedable = pointMargin >= 50
+  const isRunning = (droppeds!=="💧🫐" && droppeds!=="🫐💧") && isFeedable
+  const isTaskDone = droppeds=="💧🫐" || droppeds=="🫐💧"
 
   useEffect(()=>{
-    if (!isRunning) {
-      setPoints(prev=>prev+20)
+    console.log(1)
+    AsyncStorage.getItem("lastFedPoint_LS").then(data => setLastFedPoint(Number(data)))
+  }, [])
+  
+  useEffect(()=>{
+    if (isTaskDone) {
+      console.log(2)
+      AsyncStorage.setItem("lastFedPoint_LS", String(pointsVal + 20))
+      setPointTo({
+        value: pointsVal + 20,
+        updateAtomWith: setPoints
+      })
+      setLastFedPoint(pointsVal + 20)
     }
-  }, [isRunning])
-
+  }, [isTaskDone])
+  console.log("parrotScreen",isRunning, lastFedPoint, pointsVal)
   return (
     <>
       <GameEngine
@@ -34,8 +50,7 @@ export default function App() {
             isRunning?
               <></>:
               <>
-                <Text style={styles.congrats}>{"Kuşunuzu Mutlu Ettiniz 😇"}</Text>
-                <Text style={styles.pointText}>{"20 Puan Aldınız 🪙"}</Text>
+                <Text style={styles.pointText}>{`Kuşunuzu Beslemek İçin ${50-pointMargin} Puan Daha Almalısınız`}</Text>
               </>
           }
         </GameEngine>
@@ -48,16 +63,9 @@ const styles = StyleSheet.create({
     width:Dimensions.get("window").width,
     height:Dimensions.get("window").height,
   },
-  congrats:{
-    position:"absolute",
-    bottom: 40,
-    fontSize: 20,
-    width: Dimensions.get("window").width,
-    textAlign:"center",
-  },
   pointText:{
     position:"absolute",
-    bottom: 20,
+    top: 80,
     fontSize: 15,
     width: Dimensions.get("window").width,
     textAlign:"center",
