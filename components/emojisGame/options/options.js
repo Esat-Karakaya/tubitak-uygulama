@@ -68,6 +68,7 @@ export default function Options({showCount, showList, mistakes}) {
         <Text style={{fontSize:20}}>
           {selectedE===duplicate?"Tebrikler 🥳":"Çalıştıkça Gelişir 😉"}
         </Text>
+        <Text style={{fontSize:15}}>{`${gameDataObj.addPoint} Puan Aldınız 🪙`}</Text>
         <Button onPress={gameDataObj.get} title='Devam Et'/>
       </>:
       <Button onPress={onConfirm} title={selectedE?"Kontrol Et":"Cevabı Gör"}/>}

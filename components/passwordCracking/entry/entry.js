@@ -1,15 +1,15 @@
 import { useState, useMemo, useRef } from 'react';
 import { View, Button, Text, TextInput, Pressable } from 'react-native';
-import { useAtom } from 'jotai';
-import { PASSWORD_LS, gameData, updateStorage, gameStatistics } from '../../../globals';
+import { useAtom, useSetAtom } from 'jotai';
+import { PASSWORD_LS, gameData, updateStorage, gameStatistics, pointsAtom } from '../../../globals';
 import Character from '../character/character';
 import styles from './styles';
 
 export default function Entry({ answer, prompt, mistakes, answerLower }) {
-  // Atom hook for to select the next game
   const [ gameDataObj ] = useAtom(gameData);
   const [ falseAndTotal ]=useAtom(gameStatistics)
   const [ typedStr, setTypedStr ] = useState('');
+  const setPoints = useSetAtom(pointsAtom)
   // State to track if the answer was revealed, a rejection or unsubmition
   const [ revealState, setRevealState ] = useState(null);
   const inputRef = useRef(null);
@@ -45,6 +45,7 @@ export default function Entry({ answer, prompt, mistakes, answerLower }) {
           <Text style={{ fontSize: 20 }}>
             {typedStr === answer ? 'Tebrikler 🥳' : 'Çalıştıkça Gelişir 😉'}
           </Text>
+          <Text style={{fontSize:15}}>{`${gameDataObj.addPoint} Puan Aldınız 🪙`}</Text>
           <Button onPress={gameDataObj.get} title="Devam Et" />
         </>
       );
@@ -91,7 +92,7 @@ export default function Entry({ answer, prompt, mistakes, answerLower }) {
       <Text style={{ fontSize: 40, fontWeight: 'bold' }}>{ prompt[0] }</Text>
       <Text style={{ fontSize: 60 }}>{ prompt[1] }</Text>
       <View style={styles.innerContainer}>{characters}</View>
-      <View style={styles.inputHider}></View>
+      <View style={styles.inputHider}/>
       <TextInput
         ref={inputRef}
         onChangeText={(str) => {
@@ -105,11 +106,10 @@ export default function Entry({ answer, prompt, mistakes, answerLower }) {
         autoCorrect={false}
         style={{
           position: 'absolute',
-          top: 0,
-          bottom:10,
+          height:"90%",
           left:0,
           right:0,
-          color:"white",
+          color:"black",
         }}
       />
 

@@ -10,13 +10,13 @@ export default function App() {
   const [ droppeds, setDroppeds ] = useState("")
   const [, setPoints]=useAtom(pointsAtom)
 
-  const didStop = droppeds!=="💧🫐" || droppeds!=="🫐💧"
+  const isRunning = droppeds!=="💧🫐" || droppeds!=="🫐💧"
 
   useEffect(()=>{
-    if (didStop) {
+    if (!isRunning) {
       setPoints(prev=>prev+20)
     }
-  }, [didStop])
+  }, [isRunning])
 
   return (
     <>
@@ -24,19 +24,19 @@ export default function App() {
         systems={[ Physics ]}
         style={styles.container}
         entities={entities()}
-        running={didStop}
+        running={isRunning}
         onEvent={ e => {
           if (e.type === "used" && !droppeds.includes(e.box)) {
             setDroppeds(prev=>prev+e.box)
           }
         }}>
           {
-            didStop?
+            isRunning?
+              <></>:
               <>
                 <Text style={styles.congrats}>{"Kuşunuzu Mutlu Ettiniz 😇"}</Text>
                 <Text style={styles.pointText}>{"20 Puan Aldınız 🪙"}</Text>
-              </>:
-              <></>
+              </>
           }
         </GameEngine>
     </>
