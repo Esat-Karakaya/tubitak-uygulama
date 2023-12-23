@@ -1,13 +1,13 @@
 import { useState, useMemo, useRef } from 'react';
 import { View, Button, Text, TextInput, Pressable } from 'react-native';
 import { useAtom } from 'jotai';
-import { PASSWORD_LS, nextGame, updateStorage, gameStatistics } from '../../../globals';
+import { PASSWORD_LS, gameData, updateStorage, gameStatistics } from '../../../globals';
 import Character from '../character/character';
 import styles from './styles';
 
 export default function Entry({ answer, prompt, mistakes, answerLower }) {
   // Atom hook for to select the next game
-  const [ nextGameObj ] = useAtom(nextGame);
+  const [ gameDataObj ] = useAtom(gameData);
   const [ falseAndTotal ]=useAtom(gameStatistics)
   const [ typedStr, setTypedStr ] = useState('');
   // State to track if the answer was revealed, a rejection or unsubmition
@@ -45,7 +45,7 @@ export default function Entry({ answer, prompt, mistakes, answerLower }) {
           <Text style={{ fontSize: 20 }}>
             {typedStr === answer ? 'Tebrikler 🥳' : 'Çalıştıkça Gelişir 😉'}
           </Text>
-          <Button onPress={nextGameObj.get} title="Devam Et" />
+          <Button onPress={gameDataObj.get} title="Devam Et" />
         </>
       );
     }
@@ -72,6 +72,7 @@ export default function Entry({ answer, prompt, mistakes, answerLower }) {
                 gameToAdd: answerLower,
               })
               setRevealState(true)
+              setPoints((prev => prev+gameData.addPoint))
               return;
             }
 

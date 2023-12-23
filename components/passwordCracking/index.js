@@ -63,6 +63,6 @@ const QUESTIONS={
   gün: [ "24" , "⏰" ],
   gül: [ "Diken" , "🌼" ],
   muz: [ "Yemek" , "🐒" ],
-  barınak: [ "Hayvan" , "🏡" ],
+  çiftlik: [ "Hayvan" , "🏡" ],
   çorap: [ "Giymek" , "🦶" ],
 }

@@ -1,7 +1,7 @@
 import { Animated, Text, Dimensions } from 'react-native';
 import { useRef, useEffect } from "react";
 
-const Box = ({ body, type, isDropped, initials }) => {
+const Box = ({ body, type, isDropped, }) => {
   const { left } = body;
   const { top } = body;
   const width = body.size;
@@ -9,14 +9,18 @@ const Box = ({ body, type, isDropped, initials }) => {
 
   useEffect(()=>{
 
-    function scaleAnimate(scale) {
+    function scaleAnimate(scale, callback=()=>{}) {
       Animated.timing(scaleAnim, {
         toValue: scale,
         duration: 250,
         useNativeDriver: true,
-      }).start()
+      }).start(callback)
     }
-    if(isDropped){ scaleAnimate(0) }
+    if(isDropped){
+      scaleAnimate(0, ()=>{
+        body.fallUpdate=type
+      })
+    }
     else if(body.isPressed){ scaleAnimate(1.5) }
     else if(!body.isPressed && !isDropped){ scaleAnimate(1) }
   }, [isDropped, scaleAnim, body.isPressed])
@@ -53,8 +57,8 @@ export default (type, arr) => {
   const top = Dimensions.get('window').height - size - 20;
 
   return {
-    body: { top, left, size, isPressed: false },
-    initials: { top, left, size },
+    body: { top, left, size, isPressed: false, fallUpdate:false },
+    initials: { top, left, size, isPressed: false, fallUpdate:false },
     type,
     isDropped:false,
     renderer: <Box />,

@@ -1,9 +1,9 @@
 import { Animated, View, Dimensions, Button, Text } from 'react-native';
 import { useEffect, useRef, useState } from "react";
-import {useAtom} from "jotai"
+import {useAtom, useSetAtom} from "jotai"
 import OptionButton from "../optionButton/optionButton";
 import styles from "./styles";
-import { nextGame, gameStatistics, EMOJIS_LS, updateStorage } from '../../../globals';
+import { gameData, gameStatistics, EMOJIS_LS, updateStorage, pointsAtom } from '../../../globals';
 
 const VW=Dimensions.get("window").width
 
@@ -11,13 +11,14 @@ export default function Options({showCount, showList, mistakes}) {
   const Anim = useRef(new Animated.Value(0)).current;
   const showLeft = Anim.interpolate({inputRange:[0, 1], outputRange:[VW, (VW-styles.container.width)/2]})
 
-  const [ nextGameObj ]=useAtom(nextGame)
+  const [ gameDataObj ]=useAtom(gameData)
   const [ falseAndTotal ]=useAtom(gameStatistics)
   const options=useRef(showList.reduce((acc, e)=>acc.includes(e)?acc:[...acc, e],[])).current; //visible options
   const duplicate= useRef(findDuplicate(showList)).current //correct answer
   const shuffledEmojis= useRef(shuffle(options)).current //shuffles the options
   const [ selectedE, setSelectedE ] = useState(null) //selected emoji
   const [ reveal, setReveal ] = useState(false) //true when confirmed
+  const setPoints = useSetAtom(pointsAtom)
 
   useEffect(()=>{
     if(showCount===showList.length){
@@ -40,6 +41,7 @@ export default function Options({showCount, showList, mistakes}) {
       gameToAdd: showList,
     })
     setReveal(true)
+    setPoints((prev => prev+gameData.addPoint))
   }
 
   const onSelect=(e)=>{
@@ -66,7 +68,7 @@ export default function Options({showCount, showList, mistakes}) {
         <Text style={{fontSize:20}}>
           {selectedE===duplicate?"Tebrikler 🥳":"Çalıştıkça Gelişir 😉"}
         </Text>
-        <Button onPress={nextGameObj.get} title='Devam Et'/>
+        <Button onPress={gameDataObj.get} title='Devam Et'/>
       </>:
       <Button onPress={onConfirm} title={selectedE?"Kontrol Et":"Cevabı Gör"}/>}
     </Animated.View>

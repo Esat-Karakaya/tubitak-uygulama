@@ -29,9 +29,7 @@ export default function App() {
   registerNNPushToken(15426, 'PDvWtkdZmYUHA20TrbdOAr');
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName="Oyunlar"
-      screenOptions={optionsVal}>
-
+      <Stack.Navigator screenOptions={optionsVal}>
         <Stack.Screen
           options={{
             headerShown:false,

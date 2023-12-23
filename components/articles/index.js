@@ -37,7 +37,6 @@ export default function Paragraph({ route, navigation }) {
 						<Button 
 							onPress={()=>{
 								pickedTipsArr.splice(pickedTipsArr.indexOf(tipId), 1)
-								console.log("aç", pickedTipsArr,)
 								setPickedTips(pickedTipsArr)
 								setItem(TIPS_LS, JSON.stringify(pickedTipsArr))
 								Notifications.cancelScheduledNotificationAsync("tip"+tipId)
@@ -50,7 +49,6 @@ export default function Paragraph({ route, navigation }) {
 						<Button 
 							onPress={()=>{
 								pickedTipsArr.includes(tipId) || pickedTipsArr.push(tipId)
-								console.log("aç", pickedTipsArr,)
 								setItem(TIPS_LS, JSON.stringify(pickedTipsArr))
 								setPickedTips(pickedTipsArr)
 								registerNotification({identifier:"tip"+tipId})

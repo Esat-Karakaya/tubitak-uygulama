@@ -3,7 +3,7 @@ import Physics from './physics';
 import { useState, memo, useEffect, } from 'react';
 import { StyleSheet, StatusBar, View, Text, Button, } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
-import { MAZE_LS, gameMistakes, gameStatistics, nextGame, virtualMaze, updateStorage } from "../../globals"
+import { MAZE_LS, gameMistakes, gameStatistics, gameData, virtualMaze, updateStorage } from "../../globals"
 import { useAtom } from 'jotai';
 import CustomModal from "../simpleComponents/customModal"
 
@@ -13,7 +13,7 @@ export default MazeGame=memo(()=>{
   const [collectedKeys, setCollectedKeys] = useState(0);
   const [timeLeft, setTimeLeft] = useState(COUNT_FROM)
   const [modalVis, setModalVis] = useState(false)
-  const [nextGameObj]=useAtom(nextGame)
+  const [gameDataObj]=useAtom(gameData)
   const [falseAndTotal]=useAtom(gameStatistics)
   const [mistakes]=useAtom(gameMistakes)
   const [virtualMazeVal]=useAtom(virtualMaze)
@@ -31,6 +31,7 @@ export default MazeGame=memo(()=>{
     }
     setRunning(false)
     setModalVis(true)
+    setPoints((prev => prev+gameData.addPoint))
   }
 
   useEffect(()=>{// Count Down
@@ -50,12 +51,12 @@ export default MazeGame=memo(()=>{
       <View style={styles.topBar}>
         <Text style={styles.text}>{`Anahtarlar: ${collectedKeys}/3`}</Text>
         <Text style={styles.text}>{`Kalan Süreniz: ${timeLeft}`}</Text>
-        {!running && !modalVis ? <Button onPress={nextGameObj.get} title='Devam Et'/> : null}
+        {!running && !modalVis ? <Button onPress={gameDataObj.get} title='Devam Et'/> : null}
       </View>
       <CustomModal
         visible={modalVis}
         onClose={()=>setModalVis(false)}
-        onContinue={nextGameObj.get}
+        onContinue={gameDataObj.get}
         title={timeLeft===0?"Süre Yetişmedi ⏱️" : "Başardınız 🏆"}
         body={timeLeft===0?"Bir Dahakine 😇" : "Alkışı Hakettiniz 👏"}/>
       <GameEngine

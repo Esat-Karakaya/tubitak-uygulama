@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { View, } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useAtom, useSetAtom } from "jotai";
-import { nextGame, gameMistakes, gameStatistics, EMOJIS_LS, MAZE_LS, PASSWORD_LS, STATISTICS_LS, NavOpts } from "../../globals"
+import { gameData, gameMistakes, gameStatistics, EMOJIS_LS, MAZE_LS, PASSWORD_LS, STATISTICS_LS, NavOpts } from "../../globals"
 
 const { getItem, setItem, } = AsyncStorage;
 
@@ -16,7 +16,7 @@ AsyncStorage.removeItem(MAZE_LS)
 function GameMenu({ navigation,}) {
   const setNavOptions=useSetAtom(NavOpts)
   const setMistakesAtom = useSetAtom(gameMistakes)
-  const setNextGameAtom = useSetAtom(nextGame)
+  const setGameData = useSetAtom(gameData)
   const [GameStatisticsAtom, setGameStatisticsAtom] = useAtom(gameStatistics)
 
   useEffect(() => {
@@ -33,11 +33,11 @@ function GameMenu({ navigation,}) {
     const readItems = JSON.parse(rawData) // parse to arr
     setMistakesAtom(readItems)
     setGameStatisticsAtom(GameStatisticsAtom ?? await retreiveGameStatistics())
-    setNextGameAtom({
-      get: (isRandom ?
-        () => { randomNavigator(true) } :
-        () => { goToGame(route, storage, false, true) })
-    })
+    setGameData(
+      isRandom?
+        {get(){randomNavigator(true)}, addPoint:15} :
+        {get(){goToGame(route, storage, false, true)}, addPoint:10}
+    )
     navigation[shouldReplace ? "replace" : "navigate"](route);
     setNavOptions({ headerShown: false, tabBarStyle: { display: "none" }})// Hide Main Nav Header
   }

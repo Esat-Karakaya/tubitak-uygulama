@@ -1,25 +1,28 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {atom} from "jotai"
 
-const nextGame=atom({get(){}})// selects the next game after "devam" is clicked
-const gameMistakes=atom([])
-const gameStatistics=atom(null)
+const gameData = atom({get(){}, addPoint:0})// selects the next game after "devam" is clicked
+const gameMistakes = atom([])
+const gameStatistics = atom(null)
 
 // mazeGame atoms
-const mazePlayerSpeed=atom(8)
-const virtualMaze=atom(null)
+const mazePlayerSpeed = atom(8)
+const virtualMaze = atom(null)
 
 // Storage Keys
-const EMOJIS_LS="emojisGameMistakes"
-const MAZE_LS="mazeGameMistakes"
-const PASSWORD_LS="passwordGameMistakes"
-const STATISTICS_LS="falseAndTotal"
+const EMOJIS_LS = "emojisGameMistakes"
+const MAZE_LS = "mazeGameMistakes"
+const PASSWORD_LS = "passwordGameMistakes"
+const STATISTICS_LS = "falseAndTotal"
 
 // Navigation Display
-const NavOpts=atom({})
+const NavOpts = atom({})
 
 // Habbit Notification
-const pickedTips=atom(null)
+const pickedTips = atom(null)
+
+// account info
+const pointsAtom = atom(0)
 
 // Helpers
 function updateStorage({ isSuccessful, mistakes, statistics, gameKey, gameName, gameToAdd }) {
@@ -32,7 +35,7 @@ function updateStorage({ isSuccessful, mistakes, statistics, gameKey, gameName, 
   }
   statistics[gameName][1]++ // Incrementing the playing number in DB
 
-  const storageSets=[
+  const storageSets = [
     [gameKey, JSON.stringify(mistakes)],
     [STATISTICS_LS, JSON.stringify(statistics)]
   ]
@@ -41,7 +44,7 @@ function updateStorage({ isSuccessful, mistakes, statistics, gameKey, gameName, 
 }
 
 // Articles
-const PARAGRAPHS=[
+const PARAGRAPHS = [
   'Hafızayı geliştirmenin birkaç yolu var: düzenli egzersiz yapmak, sağlıklı beslenmek, uyku düzenine dikkat etmek, zihinsel egzersizler yapmak (bulmaca çözmek, yeni şeyler öğrenmek), görsel veya işitsel teknikler kullanmak (not almak, harita çıkarmak) ve tekrar etmek gibi teknikleri deneyebilirsin. Bu yöntemleri birleştirerek hafıza gücünü artırabilirsin.',
   'Düzenli egzersiz yapmak, hafızamızı olumlu yönde etkiler çünkü egzersiz beynimizdeki kan dolaşımını artırır ve yeni nöronların oluşmasını sağlar. Aynı zamanda egzersiz yapmak, stresi azaltır ve öğrenme ile ilgili bilişsel fonksiyonlarımızı geliştirir. Bu da hafıza gücümüzü artırır ve zihinsel netliği destekler.',
   'Sağlıklı beslenmek, hafızamız için oldukça önemlidir çünkü beyin, işlevselliğini sürdürebilmek ve yeni şeyler öğrenebilmek için doğru ve yeterli besinlere ihtiyaç duyar. Özellikle antioksidanlar, omega-3 yağ asitleri, B vitaminleri ve belirli mineraller gibi besinler beyin sağlığımız için önemlidir. Bu besinler, hafıza işlevini destekler, beyin hücrelerini korur ve sinir iletimini iyileştirir. Ayrıca, doğru beslenme düzeni, kan şekerimizin stabil seviyelerde kalmasına ve beyinimiz için gerekli enerjinin sağlanmasına da yardımcı olabilir. Bu da hafızamızın ve bilişsel işlevlerimizin korunmasına yardımcı olur.',
@@ -64,7 +67,7 @@ const HEADERS = [
 ];
 
 export {
-  nextGame,
+  gameData,
   gameMistakes,
   gameStatistics,
   mazePlayerSpeed,
@@ -78,4 +81,5 @@ export {
   HEADERS,
   PARAGRAPHS,
   pickedTips,
+  pointsAtom
 }
