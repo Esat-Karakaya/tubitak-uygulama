@@ -25,7 +25,7 @@ const Parrot = ({ body, }) => {
 export default () => {
   const size=Dimensions.get('window').width * 3 / 4;
   const left=Dimensions.get('window').width / 2 - size/2;
-  const top=Dimensions.get('window').height / 3 - size/2;
+  const top="20%";
 
   return {
     body: { top, left, size, },

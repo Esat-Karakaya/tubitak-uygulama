@@ -86,7 +86,10 @@ export default function GameNavigator() {
     <Stack.Navigator>
       <Stack.Screen name="Eğitici Oyunlar" component={GameMenu} />
       <Stack.Screen name="Emojileri Hatırla" component={EmojisGame} />
-      <Stack.Screen name="Labirentten Çıkış" component={MazeGame} />
+      <Stack.Screen options={{
+        headerTransparent:true,
+        headerBackground:()=>(<View style={{backgroundColor:"white", position:"absolute", top:0, bottom:0, left:0, right:0}}/>),
+      }} name="Labirentten Çıkış" component={MazeGame} />
       <Stack.Screen name="Şifre Kırma" component={PasswordCracking} />
     </Stack.Navigator>
   )

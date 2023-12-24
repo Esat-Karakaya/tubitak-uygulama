@@ -9,7 +9,7 @@ import registerNNPushToken from 'native-notify';
 import { Ionicons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAtom, useSetAtom } from "jotai";
 import { NavOpts, pointsAtom } from "./globals";
-import { Alert } from "react-native";
+import { Alert, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createBottomTabNavigator()
@@ -44,7 +44,7 @@ export default function App() {
           options={{
             headerShown:false,
             title:"Eğitici Oyunlar",
-            tabBarIcon:()=><Ionicons name="game-controller" size={24} color="black" />
+            tabBarIcon:()=><Ionicons name="game-controller" size={24} color="black" />,
           }}
           name="Oyunlar Menüsü"
           component={GameNavigator}/>
@@ -62,6 +62,7 @@ export default function App() {
           options={{
             headerTransparent:true,
             tabBarIcon:()=><MaterialCommunityIcons name="bird" size={24} color="black" />,
+            headerBackground:()=>(<View style={{backgroundColor:"white", position:"absolute", top:0, bottom:0, left:0, right:0}}/>),
             unmountOnBlur:true,
           }}
           name="Evcil Kuş"

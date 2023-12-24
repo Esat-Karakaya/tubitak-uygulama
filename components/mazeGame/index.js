@@ -84,6 +84,7 @@ export default MazeGame=memo(()=>{
 
 const styles = StyleSheet.create({
   topBar: {
+    marginTop:55,
     zIndex: 1,
     backgroundColor: 'aqua',
     borderBottomWidth: 5,

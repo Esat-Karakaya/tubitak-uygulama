@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Alert, Dimensions, StyleSheet, Text, } from 'react-native';
+import { Alert, Dimensions, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import entities from '../birdFiles/entities';
 import Physics from '../birdFiles/physics';
@@ -33,7 +33,6 @@ export default function ParrotScreen() {
     }
   }, [isTaskDone])
   return (
-    <>
       <GameEngine
         systems={[ Physics ]}
         style={styles.container}
@@ -49,21 +48,19 @@ export default function ParrotScreen() {
               <></>:
               <Text style={styles.pointText}>{`Kuşunuzu Beslemek İçin ${50-pointMargin} Puan Daha Almalısınız`}</Text>
           }
-        </GameEngine>
-    </>
+      </GameEngine>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width:Dimensions.get("window").width,
-    height:Dimensions.get("window").height,
+    flex:1,
   },
   pointText:{
     position:"absolute",
-    top: 90,
+    top: "15%",
     fontSize: 15,
-    width: Dimensions.get("window").width,
+    width: "100%",
     textAlign:"center",
   }
 });
