@@ -4,7 +4,7 @@ import MazeGame from "../mazeGame"
 import PasswordCracking from "../passwordCracking"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
-import { View, } from "react-native"
+import { View, ScrollView } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useAtom, useSetAtom } from "jotai";
 import { gameData, gameMistakes, gameStatistics, EMOJIS_LS, MAZE_LS, PASSWORD_LS, STATISTICS_LS, NavOpts } from "../../globals"
@@ -61,20 +61,22 @@ function GameMenu({ navigation,}) {
   }
 
   return (
-    <View style={{ rowGap: 10, margin: 10, }}>
-      <GameLink GameIcon={"😎"}
-        onPress={() => goToGame("Emojileri Hatırla", EMOJIS_LS)}
-        GameTitle={"Emojileri Hatırla"} />
-      <GameLink GameIcon={"🤔"}
-        onPress={() => goToGame("Labirentten Çıkış", MAZE_LS)}
-        GameTitle={"Labirentten Çıkış"} />
-      <GameLink GameIcon={"🕵️"}
-        onPress={() => goToGame("Şifre Kırma", PASSWORD_LS)}
-        GameTitle={"Şifre Kırma"} />
-      <GameLink GameIcon={"✏️"}
-        onPress={() => randomNavigator()}
-        GameTitle={"Özelleştirilmiş Test"} />
-    </View>
+    <ScrollView>
+      <View style={{ rowGap: 10, columnGap:10, justifyContent:"space-around", margin: 10, flexDirection:"row", flexWrap:"wrap",}}>
+        <GameLink GameIcon={"😎"}
+          onPress={() => goToGame("Emojileri Hatırla", EMOJIS_LS)}
+          GameTitle={"Emojileri Hatırla"} />
+        <GameLink GameIcon={"🤔"}
+          onPress={() => goToGame("Labirentten Çıkış", MAZE_LS)}
+          GameTitle={"Labirentten Çıkış"} />
+        <GameLink GameIcon={"🕵️"}
+          onPress={() => goToGame("Şifre Kırma", PASSWORD_LS)}
+          GameTitle={"Şifre Kırma"} />
+        <GameLink GameIcon={"✏️"}
+          onPress={() => randomNavigator()}
+          GameTitle={"Özelleştirilmiş Test"} />
+      </View>
+    </ScrollView>
   )
 }
 

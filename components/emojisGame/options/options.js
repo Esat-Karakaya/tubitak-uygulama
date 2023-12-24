@@ -5,9 +5,8 @@ import OptionButton from "../optionButton/optionButton";
 import styles from "./styles";
 import { gameData, gameStatistics, EMOJIS_LS, updateStorage, pointsAtom, setPointTo, } from '../../../globals';
 
-const VW=Dimensions.get("window").width
-
 export default function Options({showCount, showList, mistakes}) {
+  const VW=Dimensions.get("window").width
   const Anim = useRef(new Animated.Value(0)).current;
   const showLeft = Anim.interpolate({inputRange:[0, 1], outputRange:[VW, (VW-styles.container.width)/2]})
 
@@ -57,15 +56,17 @@ export default function Options({showCount, showList, mistakes}) {
   return (
     <Animated.View style={[styles.container, { transform:[{translateX:showLeft}] }]}>
       <Text style={{fontSize:20, marginVertical:20}}>{ "Hangi Emoji İki Kez Geçti❓" }</Text>
-      <View style={styles.innerContainer}>{shuffledEmojis.map((e, i)=>
-        <OptionButton
-          key={i}
-          onPress={()=>onSelect(e)}
-          isAnswer={duplicate===e}
-          reveal={reveal}
-          isSelected={selectedE===e}
-          children={e} />
-      )}</View>
+      <View style={styles.innerContainer}>
+        {shuffledEmojis.map((e, i)=>
+          <OptionButton
+            key={i}
+            onPress={()=>onSelect(e)}
+            isAnswer={duplicate===e}
+            reveal={reveal}
+            isSelected={selectedE===e}
+            children={e} />
+        )}
+      </View>
       {reveal ? 
       <>
         <Text style={{fontSize:20}}>

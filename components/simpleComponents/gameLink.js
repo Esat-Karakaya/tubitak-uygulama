@@ -12,6 +12,8 @@ export default function GameLink({ GameIcon, GameTitle, onPress }) {
 
 const styles = StyleSheet.create({
   linkContainer:{
+    width:"45%",
+    minWidth:350,
     flexDirection:"row",
     alignItems:"center",
     columnGap:10,

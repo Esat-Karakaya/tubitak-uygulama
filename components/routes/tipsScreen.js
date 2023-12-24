@@ -9,12 +9,12 @@ function TipsScreen({ navigation }){
   const buttons=useMemo(()=>HEADERS.map((header, i)=>{
     return(
       <CustomButton
-      key={header}
-      style={styles.card}
-      textStyles={styles.cardTitle}
-      onPress={()=>{
-        navigation.navigate("Tips Screen", {tipId:i})
-      }}>
+        key={header}
+        style={styles.card}
+        textStyles={styles.cardTitle}
+        onPress={()=>{
+          navigation.navigate("Tips Screen", {tipId:i})
+        }}>
         {header}
       </CustomButton>
     )
@@ -47,10 +47,12 @@ const styles = StyleSheet.create({
     flexDirection:"row",
     justifyContent:"space-around",
     rowGap:20,
+    columnGap:20,
     paddingVertical:20,
   },
   card:{
     width:"40%",
+    maxWidth:200,
   },
   cardTitle:{
     textAlignVertical:"center",
