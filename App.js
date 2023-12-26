@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import GameNavigator from "./components/routes/gamesScreen"
 import TipsScreen from "./components/routes/tipsScreen"
 import ParrotScreen from "./components/routes/parrotScreen"
+import RankScreen from "./components/routes/rankScreen"
 import registerNNPushToken from 'native-notify';
 import { Ionicons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAtom, useSetAtom } from "jotai";
@@ -67,6 +68,13 @@ export default function App() {
           }}
           name="Evcil Kuş"
           component={ParrotScreen} />
+        <Stack.Screen
+          options={{
+            tabBarIcon:()=><MaterialCommunityIcons name="medal" size={24} color="black" />,
+            unmountOnBlur:true,
+          }}
+          name="Sıralama"
+          component={RankScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -9,12 +9,12 @@ const draggableBox = (entity, entities, touch, dispatch,) => {
   }
   if (body.isPressed && pageX) { // if box was selected and user is touching screen
     body.left = pageX - body.size / 2;
-    body.top = pageY - body.size / 2;
+    body.bottom = pageY + body.size / 2;
   } else if ( // if inside the parrot image
     body.left > ParrotBody.left &&
     body.left + body.size < ParrotBody.left + ParrotBody.size &&
-    body.top > ParrotBody.top &&
-    body.top + body.size < ParrotBody.top + ParrotBody.size
+    body.bottom - body.size > ParrotBody.top &&
+    body.bottom < ParrotBody.top + ParrotBody.size
   ) {
     entity.isDropped = true;
   } else { // if box is released
@@ -24,8 +24,8 @@ const draggableBox = (entity, entities, touch, dispatch,) => {
   if ( // if user is touching box
     body.left < pageX &&
     body.left + body.size > pageX &&
-    body.top < pageY &&
-    body.top + body.size > pageY
+    body.bottom - body.size < pageY &&
+    body.bottom > pageY
   ) {
     entity.body.isPressed = true;
   }

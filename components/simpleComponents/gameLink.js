@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     alignItems:"center",
     columnGap:10,
     backgroundColor:"white",
-    borderWidth:1,
+    borderWidth:4,
     borderRadius:15,
     padding:15
   }
