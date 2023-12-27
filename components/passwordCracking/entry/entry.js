@@ -13,7 +13,7 @@ export default function Entry({ answer, prompt, mistakes, answerLower }) {
   // State to track if the answer was revealed, a rejection or unsubmition
   const [ revealState, setRevealState ] = useState(null);
   const inputRef = useRef(null);
-
+  
   // Generate an array of Character components based on the answer
   const characters = useMemo(
     () =>

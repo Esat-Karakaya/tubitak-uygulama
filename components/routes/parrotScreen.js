@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Alert, Dimensions, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import entities from '../birdFiles/entities';
 import Physics from '../birdFiles/physics';
 import { useAtom } from 'jotai';
 import { pointsAtom, setPointTo } from "../../globals";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomModal from '../simpleComponents/customModal';
 
 export default function ParrotScreen() {
   const [ droppeds, setDroppeds ] = useState("")
   const [ pointsVal, setPoints] = useAtom(pointsAtom)
   const [ lastFedPoint, setLastFedPoint ] = useState(0)
+  const [ modalVis, setModalVis ] = useState(false)
 
   const pointMargin = pointsVal - lastFedPoint
   const isFeedable = pointMargin >= 50
@@ -29,10 +31,17 @@ export default function ParrotScreen() {
         updateAtomWith: setPoints
       })
       setLastFedPoint(pointsVal + 20)
-      Alert.alert("Kuşunuzu Mutlu Ettiniz 😀", "20 Puan Aldınız 🪙", [{text: 'Kapat'}])
+      // Alert.alert("Kuşunuzu Mutlu Ettiniz 😀", "20 Puan Aldınız 🪙", [{text: 'Kapat'}])
+      setModalVis(true)
     }
   }, [isTaskDone])
   return (
+    <>
+      <CustomModal
+          visible={modalVis}
+          onClose={()=>setModalVis(false)}
+          title={"Title"}
+          body={`Puan Aldınız 🪙`}/>
       <GameEngine
         systems={[ Physics ]}
         style={styles.container}
@@ -46,9 +55,10 @@ export default function ParrotScreen() {
           {
             isRunning?
               <></>:
-              <Text style={styles.pointText}>{`Kuşunuzu Beslemek İçin ${50-pointMargin} Puan Daha Almalısınız`}</Text>
+              <Text style={styles.pointText}>{`Beslemek İçin ${50-pointMargin} Puan Daha Almalısınız 🔒`}</Text>
           }
       </GameEngine>
+    </>
   );
 }
 
@@ -58,7 +68,7 @@ const styles = StyleSheet.create({
   },
   pointText:{
     position:"absolute",
-    top: "15%",
+    bottom:40,
     fontSize: 15,
     width: "100%",
     textAlign:"center",

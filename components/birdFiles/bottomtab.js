@@ -5,10 +5,10 @@ const BottomTab = () => {
   return (
     <View
       style={{
-        borderTopWidth:3,
+        borderBottomWidth:3,
         height:90,
         position:"absolute",
-        bottom:0,
+        top:55,
         left:0,
         right:0,
         backgroundColor:"aqua",

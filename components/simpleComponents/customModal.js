@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Modal, Button } from 'react-native';
 
-export default function CustomModal({title, body, visible, onClose, onContinue}) {
+export default function CustomModal({title, body, visible, onClose, onContinue,}) {
   return(
     <Modal animationType='slide' transparent={true} onRequestClose={onClose} visible={visible}>
       <View style={styles.background}>

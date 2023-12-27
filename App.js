@@ -14,8 +14,6 @@ import { Alert, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createBottomTabNavigator()
-AsyncStorage.removeItem("point_LS")
-AsyncStorage.removeItem("lastFedPoint_LS")
 
 export default function App() {
   const [optionsVal] = useAtom(NavOpts)

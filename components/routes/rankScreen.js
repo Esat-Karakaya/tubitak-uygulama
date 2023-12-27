@@ -1,7 +1,8 @@
-import { ScrollView, View, StyleSheet, Text, Alert } from "react-native"
+import { ScrollView, View, StyleSheet, Text, Modal } from "react-native"
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useEffect, useState } from "react";
+import GetNameModal from "../simpleComponents/getNameModal";
 
 // My Firebase web app's configuration
 const firebaseConfig = {
@@ -19,7 +20,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 export default function TipsScreen(){
-  const [userState, setUserState]=useState([])
+  const [ userState, setUserState ]=useState([])
 
   useEffect(()=>{
     const usersFBRef=ref(db, 'rank')
@@ -44,6 +45,7 @@ export default function TipsScreen(){
           </View>
         ))}
       </View>
+      <GetNameModal/>
     </ScrollView>
   )
 }

@@ -3,7 +3,7 @@ import { useRef, useEffect } from "react";
 
 const Box = ({ body, type, isDropped, }) => {
   const { left } = body;
-  const { bottom } = body;
+  const { top } = body;
   const width = body.size;
   const scaleAnim = useRef(new Animated.Value(1)).current
 
@@ -32,7 +32,7 @@ const Box = ({ body, type, isDropped, }) => {
         width,
         aspectRatio: 1,
         left,
-        bottom,
+        top,
         borderWidth: 3,
         position: 'absolute',
         backgroundColor: 'white',
@@ -52,11 +52,11 @@ const Box = ({ body, type, isDropped, }) => {
 export default (type, arr) => {
   const size = 70;
   const left = (Dimensions.get('window').width * arr[0]) / (arr[1] + 1) - size / 2;
-  const bottom = 10;
+  const top = 65;
 
   return {
-    body: { bottom, left, size, isPressed: false, fallUpdate:false },
-    initials: { bottom, left, size, isPressed: false, fallUpdate:false },
+    body: { top, left, size, isPressed: false, fallUpdate:false },
+    initials: { top, left, size, isPressed: false, fallUpdate:false },
     type,
     isDropped:false,
     renderer: <Box />,

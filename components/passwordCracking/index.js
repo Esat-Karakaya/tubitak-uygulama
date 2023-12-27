@@ -15,7 +15,7 @@ export default function Game() {
   
   return (
     <SafeAreaView style={styles.container}>
-      <Entry prompt={QUESTIONS[answer]} mistakes={mistakes} answerLower={answer} answer={answer.replace('i', 'İ').toUpperCase()} />
+      <Entry prompt={QUESTIONS[answer]} mistakes={mistakes} answerLower={answer} answer={answer.replaceAll('i', 'İ').toUpperCase()} />
     </SafeAreaView>
   );
 }
