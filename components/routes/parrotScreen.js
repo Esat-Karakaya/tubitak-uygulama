@@ -40,8 +40,9 @@ export default function ParrotScreen() {
       <CustomModal
           visible={modalVis}
           onClose={()=>setModalVis(false)}
-          title={"Title"}
-          body={`Puan Aldınız 🪙`}/>
+          titleStyle={{fontSize:25}}
+          title={"Kuşunuzu Mutlu Ettiniz 😃"}
+          body={`20 Puan Aldınız 🪙`}/>
       <GameEngine
         systems={[ Physics ]}
         style={styles.container}

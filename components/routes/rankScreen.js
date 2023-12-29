@@ -1,6 +1,6 @@
 import { ScrollView, View, StyleSheet, Text, } from "react-native"
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, query, orderByChild } from "firebase/database";
 import { useEffect, useState } from "react";
 import GetNameModal from "../simpleComponents/getNameModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -17,7 +17,6 @@ const firebaseConfig = {
   databaseUrl: "https://tubitak-db-default-rtdb.firebaseio.com/",
 };
 
-AsyncStorage.removeItem(USER_KEY_LS)
 // Initialize Firebase
 initializeApp(firebaseConfig);
 const db = getDatabase();
@@ -27,8 +26,7 @@ export default function TipsScreen(){
   const [ modalVis, setModalVis ] = useState(false)
 
   useEffect(()=>{
-    const usersFBRef=ref(db, 'rank')
-    
+    const usersFBRef=query(ref(db, 'rank'), orderByChild("points"))    
     onValue(usersFBRef, (snapshot) => {
       const newUsers=[]
       snapshot.forEach((childSnap)=>{
@@ -37,7 +35,7 @@ export default function TipsScreen(){
 
         newUsers.push({name, points, key})
       });
-      setUserState(newUsers);
+      setUserState(newUsers.reverse());
     });
 
     AsyncStorage.getItem(USER_KEY_LS).then(val => val ?? setModalVis(true))

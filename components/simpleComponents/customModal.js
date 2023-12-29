@@ -1,11 +1,11 @@
 import { StyleSheet, View, Text, Modal, Button } from 'react-native';
 
-export default function CustomModal({title, body, visible, onClose, onContinue,}) {
+export default function CustomModal({title, body, visible, onClose, onContinue, titleStyle={} }) {
   return(
     <Modal animationType='slide' transparent={true} onRequestClose={onClose} visible={visible}>
       <View style={styles.background}>
         <View style={styles.modal}>
-          <Text style={{fontSize:35, textAlign:"center"}}>{title}</Text>
+          <Text style={[{fontSize:35, textAlign:"center"}, titleStyle]}>{title}</Text>
           <Text style={{fontSize:20, textAlign:"center"}}>{body}</Text>
       	  <View style={{flexDirection:"row", columnGap:10}}>
             {onContinue ? <Button onPress={onContinue} title='Devam Et'/> : null}

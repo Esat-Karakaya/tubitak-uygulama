@@ -1,5 +1,5 @@
 const draggableBox = (entity, entities, touch, dispatch,) => {
-  const { body: body } = entity;
+  const { body } = entity;
   const ParrotBody = entities.Parrot.body;
   const { pageX, pageY } = touch?.event ?? {};
   if (body.fallUpdate) { // was the falling animation done
@@ -34,9 +34,10 @@ const draggableBox = (entity, entities, touch, dispatch,) => {
 const Physics = (entities, { touches, dispatch }) => {
   const touch = touches.at(-1);
   const { Water, Food } = entities;
+  
   draggableBox(Water, entities, touch, dispatch);
   draggableBox(Food, entities, touch, dispatch);
-
+  
   if (touch) { return entities; }
   entities.UpCount++;
   if (entities.UpCount > 20) {
