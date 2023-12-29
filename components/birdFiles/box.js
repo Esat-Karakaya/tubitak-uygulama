@@ -52,7 +52,7 @@ const Box = ({ body, type, isDropped, }) => {
 export default (type, arr) => {
   const size = 70;
   const left = (Dimensions.get('window').width * arr[0]) / (arr[1] + 1) - size / 2;
-  const top = 65;
+  const top = 160;
 
   return {
     body: { top, left, size, isPressed: false, fallUpdate:false },

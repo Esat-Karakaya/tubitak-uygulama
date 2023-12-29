@@ -99,8 +99,9 @@ export default function Entry({ answer, prompt, mistakes, answerLower }) {
       <TextInput
         ref={inputRef}
         onChangeText={(str) => {
-          setTypedStr(str.replaceAll('i', 'İ').toUpperCase());
+          setTypedStr(str.toLocaleUpperCase('TR'));
         }}
+        caretHidden={true} 
         contextMenuHidden={true}
         autoFocus={true}
         maxLength={answer.length}

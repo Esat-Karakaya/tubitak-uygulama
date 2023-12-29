@@ -1,8 +1,10 @@
-import { ScrollView, View, StyleSheet, Text, Modal } from "react-native"
+import { ScrollView, View, StyleSheet, Text, } from "react-native"
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useEffect, useState } from "react";
 import GetNameModal from "../simpleComponents/getNameModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { USER_KEY_LS } from "../../globals";
 
 // My Firebase web app's configuration
 const firebaseConfig = {
@@ -15,12 +17,14 @@ const firebaseConfig = {
   databaseUrl: "https://tubitak-db-default-rtdb.firebaseio.com/",
 };
 
+AsyncStorage.removeItem(USER_KEY_LS)
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+initializeApp(firebaseConfig);
+const db = getDatabase();
 
 export default function TipsScreen(){
-  const [ userState, setUserState ]=useState([])
+  const [ userState, setUserState ] = useState([])
+  const [ modalVis, setModalVis ] = useState(false)
 
   useEffect(()=>{
     const usersFBRef=ref(db, 'rank')
@@ -28,24 +32,29 @@ export default function TipsScreen(){
     onValue(usersFBRef, (snapshot) => {
       const newUsers=[]
       snapshot.forEach((childSnap)=>{
-        newUsers.push({name:childSnap.key, point: childSnap.val()})
+        const { name, points } = childSnap.val()
+        const { key } = childSnap
+
+        newUsers.push({name, points, key})
       });
       setUserState(newUsers);
     });
+
+    AsyncStorage.getItem(USER_KEY_LS).then(val => val ?? setModalVis(true))
   },[])
 
   return(
     <ScrollView>
       <View style={styles.userContainer}>
         {userState.map((e, i) => (
-          <View key={e.name} style={styles.user}>
+          <View key={e.key} style={styles.user}>
             <Text style={{fontSize:20, fontWeight:"800"}} children={i+1+"."}/>
             <Text style={{fontSize:20,}} children={`${e.name}`}/>
-            <Text style={{fontSize:20, flex:1, textAlign:"right"}} children={`${e.point} 🪙`}/>
+            <Text style={{fontSize:20, flex:1, textAlign:"right"}} children={`${e.points} 🪙`}/>
           </View>
         ))}
       </View>
-      <GetNameModal/>
+      <GetNameModal db={db} visible={modalVis}/>
     </ScrollView>
   )
 }

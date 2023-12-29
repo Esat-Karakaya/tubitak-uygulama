@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {atom} from "jotai"
 
+// game navigation
 const gameData = atom({get(){}, addPoint:0})// selects the next game after "devam" is clicked
 const gameMistakes = atom([])
 const gameStatistics = atom(null)
@@ -23,6 +24,7 @@ const pickedTips = atom(null)
 
 // account info
 const pointsAtom = atom(0)
+const USER_KEY_LS = "userName"
 
 // Helpers
 function updateStorage({ isSuccessful, mistakes, statistics, gameKey, gameName, gameToAdd }) {
@@ -85,5 +87,6 @@ export {
   PARAGRAPHS,
   pickedTips,
   pointsAtom,
-  setPointTo
+  setPointTo,
+  USER_KEY_LS,
 }

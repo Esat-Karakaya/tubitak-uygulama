@@ -31,10 +31,10 @@ export default function ParrotScreen() {
         updateAtomWith: setPoints
       })
       setLastFedPoint(pointsVal + 20)
-      // Alert.alert("Kuşunuzu Mutlu Ettiniz 😀", "20 Puan Aldınız 🪙", [{text: 'Kapat'}])
       setModalVis(true)
     }
   }, [isTaskDone])
+  
   return (
     <>
       <CustomModal
