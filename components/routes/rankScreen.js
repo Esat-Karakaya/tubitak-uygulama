@@ -24,6 +24,7 @@ const db = getDatabase();
 export default function TipsScreen(){
   const [ userState, setUserState ] = useState([])
   const [ modalVis, setModalVis ] = useState(false)
+  const [ userKey, setUserKey ] = useState("")
 
   useEffect(()=>{
     const usersFBRef=query(ref(db, 'rank'), orderByChild("points"))    
@@ -38,7 +39,14 @@ export default function TipsScreen(){
       setUserState(newUsers.reverse());
     });
 
-    AsyncStorage.getItem(USER_KEY_LS).then(val => val ?? setModalVis(true))
+    AsyncStorage.getItem(USER_KEY_LS)
+    .then(val => {
+      if(typeof(val)==="string"){
+        setUserKey(val)
+        return
+      }
+      setModalVis(true)
+    })
   },[])
 
   return(
@@ -47,7 +55,7 @@ export default function TipsScreen(){
         {userState.map((e, i) => (
           <View key={e.key} style={styles.user}>
             <Text style={{fontSize:20, fontWeight:"800"}} children={i+1+"."}/>
-            <Text style={{fontSize:20,}} children={`${e.name}`}/>
+            <Text style={{fontSize:20,}} children={`${e.name} ${e.key===userKey ? "(siz 😎)" : ""}`}/>
             <Text style={{fontSize:20, flex:1, textAlign:"right"}} children={`${e.points} 🪙`}/>
           </View>
         ))}

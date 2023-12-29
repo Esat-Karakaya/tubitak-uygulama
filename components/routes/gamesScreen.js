@@ -11,8 +11,6 @@ import { gameData, gameMistakes, gameStatistics, EMOJIS_LS, MAZE_LS, PASSWORD_LS
 
 const { getItem, setItem, } = AsyncStorage;
 
-AsyncStorage.removeItem(MAZE_LS)
-
 function GameMenu({ navigation,}) {
   const setNavOptions=useSetAtom(NavOpts)
   const setMistakesAtom = useSetAtom(gameMistakes)

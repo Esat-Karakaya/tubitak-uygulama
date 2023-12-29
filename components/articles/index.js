@@ -8,9 +8,6 @@ import * as Notifications from 'expo-notifications';
 const {getItem, setItem}=AsyncStorage
 const TIPS_LS="pickedTips"
 
-AsyncStorage.removeItem(TIPS_LS)
-Notifications.cancelAllScheduledNotificationsAsync()
-
 export default function Paragraph({ route, navigation }) {
 	const [ pickedTipsVal, setPickedTips ] = useAtom(pickedTips)
 	const [ isNotificationOn, setIsNotificationOn ] = useState(null)
