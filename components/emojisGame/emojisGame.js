@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 
 //CONFIGS
 const EMOJI_NUM=10
-const ANIM_DUR=700
+const ANIM_DUR=800
 
 //HELPER FUNCTIONS
 const selectSome=( arr, count )=>{

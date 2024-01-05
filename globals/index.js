@@ -1,5 +1,21 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set } from 'firebase/database';
 import {atom} from "jotai"
+
+// Rank Connection
+// My Firebase web app's configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBQYzl3NqdgZn6hsg_09r2CPUse8V3N16Q",
+  authDomain: "tubitak-db.firebaseapp.com",
+  projectId: "tubitak-db",
+  storageBucket: "tubitak-db.appspot.com",
+  messagingSenderId: "647506049124",
+  appId: "1:647506049124:web:49a6e757689873b44c8771",
+  databaseUrl: "https://tubitak-db-default-rtdb.firebaseio.com/",
+};
+initializeApp(firebaseConfig);
+const rankDB = getDatabase();
 
 // game navigation
 const gameData = atom({get(){}, addPoint:0})// selects the next game after "devam" is clicked
@@ -15,6 +31,9 @@ const EMOJIS_LS = "emojisGameMistakes"
 const MAZE_LS = "mazeGameMistakes"
 const PASSWORD_LS = "passwordGameMistakes"
 const STATISTICS_LS = "falseAndTotal"
+const USER_KEY_LS = "userName"
+const USER_POINT_LS = "point_LS"
+const LAST_FED_POINT_LS = "lastFedPoint_LS"
 
 // Navigation Display
 const NavOpts = atom({})
@@ -24,7 +43,6 @@ const pickedTips = atom(null)
 
 // account info
 const pointsAtom = atom(0)
-const USER_KEY_LS = "userName"
 
 // Helpers
 function updateStorage({ isSuccessful, mistakes, statistics, gameKey, gameName, gameToAdd }) {
@@ -44,9 +62,14 @@ function updateStorage({ isSuccessful, mistakes, statistics, gameKey, gameName, 
 
   AsyncStorage.multiSet(storageSets)
 }
-function setPointTo({value, updateAtomWith}) {
-  AsyncStorage.setItem("point_LS", String(value))
+async function setPointTo({value, updateAtomWith}) {
+  AsyncStorage.setItem(USER_POINT_LS, String(value))
   updateAtomWith(value)
+  const userKey = await AsyncStorage.getItem(USER_KEY_LS)
+  if(typeof(userKey)==="string"){
+    const pointRef = ref(rankDB, "rank/" + userKey + "/points")
+    set(pointRef, Number(value))
+  }
 }
 
 // Articles
@@ -89,4 +112,7 @@ export {
   pointsAtom,
   setPointTo,
   USER_KEY_LS,
+  rankDB,
+  USER_POINT_LS,
+  LAST_FED_POINT_LS,
 }

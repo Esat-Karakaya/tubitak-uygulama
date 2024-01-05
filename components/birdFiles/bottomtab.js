@@ -1,7 +1,7 @@
 import { Dimensions, View, } from 'react-native';
 
 const BottomTab = () => {
-  const width = Dimensions.get("screen").height/3;
+  const width = Dimensions.get("window").width*3/4;
   const left = Dimensions.get('window').width / 2 - width/2
 
   return (

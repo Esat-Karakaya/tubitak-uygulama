@@ -29,6 +29,7 @@ function GameMenu({ navigation,}) {
     let rawData = (await getItem(storage)) ?? "[]"
     
     const readItems = JSON.parse(rawData) // parse to arr
+  
     setMistakesAtom(readItems)
     setGameStatisticsAtom(GameStatisticsAtom ?? await retreiveGameStatistics())
     setGameData(
@@ -36,8 +37,9 @@ function GameMenu({ navigation,}) {
         {get(){randomNavigator(true)}, addPoint:15} :
         {get(){goToGame(route, storage, false, true)}, addPoint:10}
     )
-    navigation[shouldReplace ? "replace" : "navigate"](route);
     setNavOptions({ headerShown: false, tabBarStyle: { display: "none" }})// Hide Main Nav Header
+    navigation[shouldReplace ? "replace" : "navigate"](route);
+
   }
 
   const randomNavigator = async (bool) => { // SIDE EFFECTS

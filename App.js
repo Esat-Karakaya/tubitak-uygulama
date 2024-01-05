@@ -9,7 +9,7 @@ import RankScreen from "./components/routes/rankScreen"
 import registerNNPushToken from 'native-notify';
 import { Ionicons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAtom, useSetAtom } from "jotai";
-import { NavOpts, pointsAtom } from "./globals";
+import { NavOpts, pointsAtom, USER_POINT_LS, } from "./globals";
 import { Alert, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -22,7 +22,7 @@ export default function App() {
   const lastNR = Notifications.useLastNotificationResponse()
 
   useEffect(()=>{
-    AsyncStorage.getItem("point_LS").then( data => {
+    AsyncStorage.getItem(USER_POINT_LS).then( data => {
       setPoints(Number(data))
     })
   }, [])

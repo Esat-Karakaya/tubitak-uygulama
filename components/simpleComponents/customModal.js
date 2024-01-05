@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Modal, Button } from 'react-native';
+import { StyleSheet, View, Text, Modal, Button, Dimensions } from 'react-native';
 
 export default function CustomModal({title, body, visible, onClose, onContinue, titleStyle={} }) {
   return(
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     alignItems:"center",
   },
   modal:{
-    width:"90%",
+    width:Dimensions.get("window").width*9/10>Dimensions.get("window").height*2/3 ? Dimensions.get("window").height*2/3:Dimensions.get("window").width*9/10,
     aspectRatio:1,
     backgroundColor:"#fff",
     alignItems:"center",

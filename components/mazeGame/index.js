@@ -18,7 +18,7 @@ export default MazeGame=memo(()=>{
   const [mistakes]=useAtom(gameMistakes)
   const [virtualMazeVal]=useAtom(virtualMaze)
   const [ pointsVal, setPoints ] = useAtom(pointsAtom)
-
+  
   function stopGame(){
     if (running) {
       updateStorage({
@@ -60,7 +60,7 @@ export default MazeGame=memo(()=>{
       <CustomModal
         visible={modalVis}
         onClose={()=>setModalVis(false)}
-        onContinue={gameDataObj.get}
+        onContinue={()=>{gameDataObj.get(); setModalVis(false)}}
         title={timeLeft===0?"Süre Yetişmedi ⏱️" : "Başardınız 🏆"}
         body={`${gameDataObj.addPoint} Puan Aldınız 🪙`}/>
       <GameEngine
@@ -84,7 +84,9 @@ export default MazeGame=memo(()=>{
 
 const styles = StyleSheet.create({
   topBar: {
-    marginTop:55,
+    borderTopColor:"white",
+    borderTopWidth:10,
+    marginTop:45,
     zIndex: 1,
     backgroundColor: 'aqua',
     borderBottomWidth: 5,

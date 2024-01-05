@@ -1,25 +1,9 @@
 import { ScrollView, View, StyleSheet, Text, } from "react-native"
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue, query, orderByChild } from "firebase/database";
+import { ref, onValue, query, orderByChild } from "firebase/database";
 import { useEffect, useState } from "react";
 import GetNameModal from "../simpleComponents/getNameModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { USER_KEY_LS } from "../../globals";
-
-// My Firebase web app's configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyBQYzl3NqdgZn6hsg_09r2CPUse8V3N16Q",
-  authDomain: "tubitak-db.firebaseapp.com",
-  projectId: "tubitak-db",
-  storageBucket: "tubitak-db.appspot.com",
-  messagingSenderId: "647506049124",
-  appId: "1:647506049124:web:49a6e757689873b44c8771",
-  databaseUrl: "https://tubitak-db-default-rtdb.firebaseio.com/",
-};
-
-// Initialize Firebase
-initializeApp(firebaseConfig);
-const db = getDatabase();
+import { USER_KEY_LS, rankDB } from "../../globals";
 
 export default function TipsScreen(){
   const [ userState, setUserState ] = useState([])
@@ -27,7 +11,7 @@ export default function TipsScreen(){
   const [ userKey, setUserKey ] = useState("")
 
   useEffect(()=>{
-    const usersFBRef=query(ref(db, 'rank'), orderByChild("points"))    
+    const usersFBRef=query(ref(rankDB, 'rank'), orderByChild("points"))    
     onValue(usersFBRef, (snapshot) => {
       const newUsers=[]
       snapshot.forEach((childSnap)=>{
@@ -60,7 +44,7 @@ export default function TipsScreen(){
           </View>
         ))}
       </View>
-      <GetNameModal db={db} visible={modalVis}/>
+      <GetNameModal db={rankDB} visible={modalVis}/>
     </ScrollView>
   )
 }

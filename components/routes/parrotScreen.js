@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, } from 'react-native';
+import { StyleSheet, Text, View, } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import entities from '../birdFiles/entities';
 import Physics from '../birdFiles/physics';
 import { useAtom } from 'jotai';
-import { pointsAtom, setPointTo } from "../../globals";
+import { LAST_FED_POINT_LS, pointsAtom, setPointTo, } from "../../globals";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomModal from '../simpleComponents/customModal';
 
@@ -20,12 +20,12 @@ export default function ParrotScreen() {
   const isTaskDone = droppeds=="💧🫐" || droppeds=="🫐💧"
 
   useEffect(()=>{
-    AsyncStorage.getItem("lastFedPoint_LS").then(data => setLastFedPoint(Number(data)))
+    AsyncStorage.getItem(LAST_FED_POINT_LS).then(data => setLastFedPoint(Number(data)))
   }, [])
   
   useEffect(()=>{
     if (isTaskDone) {
-      AsyncStorage.setItem("lastFedPoint_LS", String(pointsVal + 20))
+      AsyncStorage.setItem(LAST_FED_POINT_LS, String(pointsVal + 20))
       setPointTo({
         value: pointsVal + 20,
         updateAtomWith: setPoints
@@ -56,7 +56,9 @@ export default function ParrotScreen() {
           {
             isRunning?
               <></>:
-              <Text style={styles.pointText}>{`Beslemek İçin ${50-pointMargin} Puan Daha Almalısınız 🔒`}</Text>
+              <View style={{flex:1, alignItems:"center"}}>
+                <Text style={styles.pointText}>{`Beslemek İçin ${50-pointMargin} Puan Daha Almalısınız 🔒`}</Text>
+              </View>
           }
       </GameEngine>
     </>
@@ -68,10 +70,12 @@ const styles = StyleSheet.create({
     flex:1,
   },
   pointText:{
+    backgroundColor:"white",
+    padding:15,
     position:"absolute",
     bottom:40,
     fontSize: 15,
-    width: "100%",
     textAlign:"center",
+    borderRadius:15,
   }
 });
