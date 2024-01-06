@@ -13,14 +13,6 @@ class AppBlockModule : Module() {
     // The module will be accessible from `requireNativeModule('AppBlock')` in JavaScript.
     Name("AppBlock")
 
-    // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
-    Constants(
-      "PI" to Math.PI
-    )
-
-    // Defines event names that the module can send to JavaScript.
-    Events("onChange")
-
     // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
     Function("hello") {
       "Hello world! 👋"
