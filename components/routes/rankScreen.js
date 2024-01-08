@@ -10,7 +10,7 @@ export default function TipsScreen(){
   const [ modalVis, setModalVis ] = useState(false)
   const [ userKey, setUserKey ] = useState("")
 
-  useEffect(()=>{
+  useEffect(()=>{ // Get users from firebase & get our user's db key from storage
     const usersFBRef=query(ref(rankDB, 'rank'), orderByChild("points"))    
     onValue(usersFBRef, (snapshot) => {
       const newUsers=[]

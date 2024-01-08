@@ -1,21 +1,32 @@
 import { Image, Dimensions } from 'react-native';
-import Img from "../../assets/parrot.jpg";
+import BigImg from "../../assets/parrot.jpg";
+import MidImg from "../../assets/baby-parrot.jpg";
+import TinyImg from "../../assets/really-baby-parrot.jpg";
+import { useAtom } from 'jotai';
+import { pointsAtom } from '../../globals';
 
 const Parrot = ({ body }) => {
   const { size, top, left } = body
-  
+  const [ totalPoints ] = useAtom(pointsAtom)
+
+  function pickImage(val) {
+    if ( val < 200 ) return TinyImg
+    if ( val < 300 ) return MidImg
+    return BigImg
+  }
+
   return (
     <Image
       style={{
-        width:size,
-        height:size,
+        width:300,
+        height:300,
         left,
         top,
         borderRadius:20,
         position: 'absolute',
         zIndex:-1,
       }}
-      source={Img}
+      source={pickImage(totalPoints)}
     />
   );
 };
