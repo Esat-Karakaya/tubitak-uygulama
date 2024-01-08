@@ -8,6 +8,7 @@ import { View, ScrollView } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useAtom, useSetAtom } from "jotai";
 import { gameData, gameMistakes, gameStatistics, EMOJIS_LS, MAZE_LS, PASSWORD_LS, STATISTICS_LS, NavOpts } from "../../globals"
+import { AppBlockView } from "../../modules/app-block"
 
 const { getItem, setItem, } = AsyncStorage;
 
@@ -59,9 +60,9 @@ function GameMenu({ navigation,}) {
         break;
     }
   }
-
   return (
     <ScrollView>
+      <AppBlockView name="txt" />
       <View style={{ rowGap: 10, columnGap:10, justifyContent:"space-around", margin: 10, flexDirection:"row", flexWrap:"wrap",}}>
         <GameLink GameIcon={"😎"}
           onPress={() => goToGame("Emojileri Hatırla", EMOJIS_LS)}
